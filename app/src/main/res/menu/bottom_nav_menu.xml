@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_item1"
-        android:icon="@drawable/ic_assignment_24"
+        android:icon="@drawable/ic_details_24"
         android:title="@string/title_size" />
     <item
         android:id="@+id/navigation_item2"
@@ -15,6 +15,11 @@
 
     <item
         android:id="@+id/navigation_item4"
-        android:icon="@drawable/ic_add_24"
-        android:title="@string/title_add" />
+        android:icon="@drawable/ic_account_24"
+        android:title="@string/title_account" />
+
+    <item
+        android:id="@+id/navigation_item5"
+        android:icon="@drawable/ic_person_24"
+        android:title="@string/title_mine" />
 </menu>

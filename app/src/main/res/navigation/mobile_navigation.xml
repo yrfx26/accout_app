@@ -29,8 +29,14 @@
     <fragment
         android:id="@+id/navigation_item4"
         android:name="cn.edu.jnu.account.AccountFragment"
-        android:label="fragment_account"
+        android:label="账户"
         tools:layout="@layout/fragment_account" >
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_item5"
+        android:name="cn.edu.jnu.account.MineFragment"
+        android:label="我的"
+        tools:layout="@layout/fragment_mine" />
 </navigation>
 
