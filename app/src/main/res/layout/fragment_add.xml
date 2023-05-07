@@ -90,7 +90,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/jizhang_tv1_type"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
                 android:text="金额"
@@ -172,7 +172,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="@+id/jizhang_img_money"
-                app:layout_constraintTop_toBottomOf="@+id/textView10"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_tv1_type"
                 tools:src="@tools:sample/avatars" />
 
             <Spinner
