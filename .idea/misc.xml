@@ -3,10 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/1/project/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2315" />
         <entry key="..\:/1/project/app/src/main/res/layout/account_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/1/project/app/src/main/res/layout/activity_account_add.xml" value="0.2078804347826087" />
+        <entry key="..\:/1/project/app/src/main/res/layout/activity_account_details.xml" value="0.17798913043478262" />
         <entry key="..\:/1/project/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/1/project/app/src/main/res/layout/fragment_account.xml" value="0.22826086956521738" />
-        <entry key="..\:/1/project/app/src/main/res/layout/fragment_details.xml" value="0.264" />
+        <entry key="..\:/1/project/app/src/main/res/layout/fragment_account.xml" value="0.264" />
+        <entry key="..\:/1/project/app/src/main/res/layout/fragment_add.xml" value="0.24048913043478262" />
+        <entry key="..\:/1/project/app/src/main/res/layout/fragment_chart.xml" value="0.24048913043478262" />
+        <entry key="..\:/1/project/app/src/main/res/layout/fragment_details.xml" value="0.17687074829931973" />
+        <entry key="..\:/1/project/app/src/main/res/layout/fragment_mine.xml" value="0.2078804347826087" />
+        <entry key="..\:/1/project/app/src/main/res/layout/item_account.xml" value="0.19610507246376813" />
+        <entry key="..\:/1/project/app/src/main/res/layout/item_account_details.xml" value="0.19610507246376813" />
         <entry key="..\:/project/app/src/main/res/drawable/ic_account_balance_24.xml" value="0.255" />
         <entry key="..\:/project/app/src/main/res/drawable/ic_add_24.xml" value="0.1" />
         <entry key="..\:/project/app/src/main/res/drawable/ic_assignment_24.xml" value="0.255" />
