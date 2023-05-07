@@ -9,64 +9,67 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="382dp"
-            android:layout_height="487dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="176dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="78dp"
+            android:layout_width="386dp"
+            android:layout_height="441dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.573" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout1"
             android:layout_width="match_parent"
             android:layout_height="91dp"
             android:layout_marginBottom="10dp"
+            android:background="#ffff00"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.106">
+            app:layout_constraintVertical_bias="0.079">
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="71dp"
-                android:layout_height="42dp"
-                android:text="TextView"
+                android:layout_width="97dp"
+                android:layout_height="34dp"
+                android:text="2003.00"
+                android:textSize="20sp"
+                android:textColor="#DC143C"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.77"
+                app:layout_constraintHorizontal_bias="0.899"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.918" />
+                app:layout_constraintVertical_bias="0.789" />
 
             <TextView
                 android:id="@+id/textView9"
-                android:layout_width="71dp"
-                android:layout_height="42dp"
-                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="04月"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.07"
+                app:layout_constraintHorizontal_bias="0.068"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.918" />
+                app:layout_constraintVertical_bias="0.703" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="666"
+                android:text="2023年"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.067"
@@ -78,7 +81,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="收入"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.402"
@@ -90,7 +93,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="支出"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.742"
@@ -100,17 +103,75 @@
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="71dp"
-                android:layout_height="42dp"
-                android:layout_marginEnd="48dp"
-                android:text="TextView"
+                android:layout_width="97dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="46dp"
+                android:text="10000.00"
+                android:textSize="20sp"
+                android:textColor="#2E8B57"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView8"
-                app:layout_constraintHorizontal_bias="0.993"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.789" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="2dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#A9A9A9"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.268"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.918" />
+                app:layout_constraintVertical_bias="0.542" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="30dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="11dp"
+                android:layout_marginBottom="19dp"
+                android:src="@drawable/ic_arrow_drop_down_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/view"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="424dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#ffff00">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="93dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="153dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="178dp"
+                android:text="记账明细"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
