@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Account" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Account" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,5 +12,18 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+    <style name="jizhang_spinner_style"  parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textSize">20sp</item>   <!--记账页面中Spinner下拉框item字体大小设置-->
+        <item name="android:textColor">#000000</item>   <!--记账页面中Spinner下拉框item字体颜色设置-->
+    </style>
+
+    <style name="jizhang_toolbar_style"  parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="android:theme">@color/purple_500</item>
+    </style>
+
+    <style name="jizhang_bt_style" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="background">@color/yellow</item>
     </style>
 </resources>

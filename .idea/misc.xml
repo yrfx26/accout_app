@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Daily/DailyProgram/Script/AndroidProjects/account_app/app/src/main/res/layout/activity_main.xml" value="0.12314814814814815" />
+        <entry key="..\:/Daily/DailyProgram/Script/AndroidProjects/account_app/app/src/main/res/layout/fragment_account.xml" value="0.14447463768115942" />
+        <entry key="..\:/Daily/DailyProgram/Script/AndroidProjects/account_app/app/src/main/res/layout/fragment_add.xml" value="0.4" />
         <entry key="..\:/project/app/src/main/res/drawable/ic_account_balance_24.xml" value="0.255" />
         <entry key="..\:/project/app/src/main/res/drawable/ic_add_24.xml" value="0.1" />
         <entry key="..\:/project/app/src/main/res/drawable/ic_assignment_24.xml" value="0.255" />
@@ -22,5 +25,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.264" />
+      </ProjectState>
+    </option>
   </component>
 </project>
