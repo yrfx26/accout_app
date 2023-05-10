@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/jizhang_tv_type"
         android:layout_width="41dp"
         android:layout_height="39dp"
         android:layout_marginTop="12dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/jizhang_tv_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="300dp"
@@ -43,7 +43,7 @@
         app:layout_constraintVertical_bias="0.296" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/jizhang_tv_time"
         android:layout_width="116dp"
         android:layout_height="28dp"
         android:text="工商银行卡"
