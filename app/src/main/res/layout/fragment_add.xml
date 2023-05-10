@@ -25,7 +25,7 @@
             android:theme="?attr/actionBarTheme"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp"
-            tools:ignore="MissingConstraints" >
+            tools:ignore="MissingClass,MissingConstraints" >
 
             <Spinner
                 android:id="@+id/jizhang_spinner"
@@ -46,40 +46,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:ignore="MissingConstraints"
+            tools:ignore="MissingClass,MissingConstraints"
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="1dp">
 
 
             <Spinner
-                android:id="@+id/spinner3"
+                android:id="@+id/jizhang_spinner_type"
                 android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="30dp"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+                app:layout_constraintStart_toEndOf="@+id/jizhang_img_type"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_et_money" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/jizhang_tv_time"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
                 android:text="时间"
                 android:textSize="18dp"
                 android:gravity="center"
-                app:layout_constraintStart_toStartOf="@+id/imageView5"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+                app:layout_constraintStart_toStartOf="@+id/jizhang_img_time"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_img_time" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/jizhang_img_time"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                tools:src="@tools:sample/avatars" />
+                app:layout_constraintStart_toStartOf="@+id/jizhang_img_account"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_tv_account"
+                tools:src="@drawable/ic_time" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName4"
+                android:id="@+id/jizhang_et_money"
                 android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="40dp"
@@ -96,7 +96,7 @@
                 android:text="金额"
                 android:textSize="18dp"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName4"
+                app:layout_constraintBottom_toBottomOf="@+id/jizhang_et_money"
                 app:layout_constraintStart_toStartOf="@+id/jizhang_img_money"
                 app:layout_constraintTop_toBottomOf="@+id/jizhang_img_money"
                 app:layout_constraintVertical_bias="0.0" />
@@ -107,39 +107,39 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="75dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName4"
-                tools:src="@tools:sample/avatars" />
+                app:layout_constraintTop_toTopOf="@+id/jizhang_et_money"
+                tools:src="@drawable/ic_money" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/jizhang_tv_account"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
                 android:text="账户"
                 android:textSize="18dp"
                 android:gravity="center"
-                app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                app:layout_constraintStart_toStartOf="@+id/jizhang_img_account"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_img_account" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName3"
+                android:id="@+id/jizhang_et_time"
                 android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="30dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                app:layout_constraintBottom_toBottomOf="@+id/textView11"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
-                app:layout_constraintTop_toBottomOf="@+id/spinner2"
+                app:layout_constraintBottom_toBottomOf="@+id/jizhang_tv_time"
+                app:layout_constraintStart_toEndOf="@+id/jizhang_img_time"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_spinner_account"
                 app:layout_constraintVertical_bias="1.0" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/jizhang_img_account"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                app:layout_constraintStart_toStartOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                tools:src="@tools:sample/avatars" />
+                app:layout_constraintStart_toStartOf="@+id/jizhang_img_type"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_tv_type"
+                tools:src="@drawable/ic_account" />
 
             <Button
                 android:id="@+id/jizhang_bt_commit"
@@ -150,38 +150,38 @@
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.9"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_et_time"
+                app:layout_constraintVertical_bias="0.677"
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/jizhang_tv_type"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
                 android:text="类型"
                 android:textSize="18dp"
                 android:gravity="center"
-                app:layout_constraintStart_toStartOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintStart_toStartOf="@+id/jizhang_img_type"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_img_type" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/jizhang_img_type"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="@+id/jizhang_img_money"
                 app:layout_constraintTop_toBottomOf="@+id/jizhang_tv1_type"
-                tools:src="@tools:sample/avatars" />
+                tools:src="@drawable/ic_paywhat" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/jizhang_spinner_account"
                 android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="30dp"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/spinner3" />
+                app:layout_constraintStart_toEndOf="@+id/jizhang_img_account"
+                app:layout_constraintTop_toBottomOf="@+id/jizhang_spinner_type" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
