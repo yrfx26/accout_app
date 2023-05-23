@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Date;
+
+import cn.edu.jnu.account.data.Bill;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +30,7 @@ public class AddFragment extends Fragment {
     private Spinner jizhang_spinner_account;
     private EditText jizhang_et_time;
     private Button jizhang_bt_commit;
+    private Bill bill;
 
     public AddFragment() {
         // Required empty public constructor
@@ -110,6 +114,19 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"click commit",Toast.LENGTH_LONG).show();
+                bill = new Bill();
+                bill.setMoney(Double.parseDouble(jizhang_et_money.getText().toString()));
+                bill.setType(1);
+                bill.setAccountName("account1");
+                bill.setTime(new Date(System.currentTimeMillis()));
+                if (0 != bill.getMoney() && null != bill.getAccountName() && null != bill.getTime()){
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("newbill", bill);
+                    getParentFragmentManager().setFragmentResult("bill", bundle);
+                }else {
+                    Toast.makeText(getContext(),"请将账单信息输入完整",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

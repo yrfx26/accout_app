@@ -76,7 +76,7 @@
                 android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="@+id/jizhang_img_account"
                 app:layout_constraintTop_toBottomOf="@+id/jizhang_tv_account"
-                tools:src="@drawable/ic_time" />
+                android:src="@drawable/ic_time" />
 
             <EditText
                 android:id="@+id/jizhang_et_money"
@@ -108,7 +108,7 @@
                 android:layout_marginStart="75dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/jizhang_et_money"
-                tools:src="@drawable/ic_money" />
+                android:src="@drawable/ic_money" />
 
             <TextView
                 android:id="@+id/jizhang_tv_account"
@@ -139,7 +139,7 @@
                 android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="@+id/jizhang_img_type"
                 app:layout_constraintTop_toBottomOf="@+id/jizhang_tv_type"
-                tools:src="@drawable/ic_account" />
+                android:src="@drawable/ic_account" />
 
             <Button
                 android:id="@+id/jizhang_bt_commit"
@@ -173,7 +173,7 @@
                 android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="@+id/jizhang_img_money"
                 app:layout_constraintTop_toBottomOf="@+id/jizhang_tv1_type"
-                tools:src="@drawable/ic_paywhat" />
+                android:src="@drawable/ic_type" />
 
             <Spinner
                 android:id="@+id/jizhang_spinner_account"

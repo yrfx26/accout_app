@@ -1,12 +1,14 @@
 package cn.edu.jnu.account;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import cn.edu.jnu.account.data.Bill;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +55,15 @@ public class DetailsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        getParentFragmentManager().setFragmentResultListener("bill", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(String key,Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                Bill newbill = bundle.getParcelable("newbill");
+                // Do something with the result...
+                System.out.println(newbill.toString());
+            }
+        });
     }
 
     @Override

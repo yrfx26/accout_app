@@ -32,6 +32,17 @@ public class Bill implements Serializable, Parcelable {
         this.time = time;
     }
 
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", billClass=" + billClass +
+                ", money=" + money +
+                ", type=" + type +
+                ", accountName='" + accountName + '\'' +
+                ", time=" + time +
+                '}';
+    }
 
     protected Bill(Parcel in) {
         id = in.readInt();
