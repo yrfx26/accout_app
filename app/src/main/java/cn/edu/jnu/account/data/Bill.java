@@ -111,7 +111,7 @@ public class Bill implements Serializable, Parcelable {
 
         String date = "";
         String year = String.valueOf(calendar.get(Calendar.YEAR));					//获取年份
-        String month = String.valueOf(calendar.get(Calendar.MONTH)) + 1;					//获取月份
+        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);					//获取月份
         String day = String.valueOf(calendar.get(Calendar.DATE));					//获取日
         date = year+"-"+month+"-"+day;
 

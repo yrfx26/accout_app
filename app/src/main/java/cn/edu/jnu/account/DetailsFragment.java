@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +30,14 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getParentFragmentManager().setFragmentResultListener("bill", this, new FragmentResultListener() {
+            public void onFragmentResult(String key,Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                Bill newbill = bundle.getParcelable("newbill");
+                // Do something with the result...
+                billsShow.add(newbill);
+            }
+        });
 
     }
 
