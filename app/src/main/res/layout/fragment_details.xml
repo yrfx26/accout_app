@@ -13,7 +13,7 @@
         >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/fg_details_recycleView"
             android:layout_width="386dp"
             android:layout_height="441dp"
             android:layout_marginStart="24dp"
@@ -29,22 +29,21 @@
             android:id="@+id/constraintLayout1"
             android:layout_width="match_parent"
             android:layout_height="91dp"
-            android:layout_marginBottom="10dp"
             android:background="#ffff00"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.079">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="97dp"
                 android:layout_height="34dp"
                 android:text="2003.00"
-                android:textSize="20sp"
                 android:textColor="#DC143C"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.899"
@@ -107,8 +106,8 @@
                 android:layout_height="34dp"
                 android:layout_marginStart="46dp"
                 android:text="10000.00"
-                android:textSize="20sp"
                 android:textColor="#2E8B57"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -130,7 +129,7 @@
                 app:layout_constraintVertical_bias="0.542" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/fg_details_imgbn_date"
                 android:layout_width="30dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="3dp"
@@ -141,16 +140,18 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/view"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="424dp"
-            android:layout_height="45dp"
+            android:id="@+id/constraintLayout3"
+            android:layout_width="409dp"
+            android:layout_height="40dp"
             android:layout_marginStart="1dp"
             android:background="#ffff00"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

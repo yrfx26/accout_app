@@ -6,17 +6,18 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Bill implements Serializable, Parcelable {
-    public static final String INCOME_CLASS = "收入";
+    public static final String  INCOME_CLASS = "收入";
     public static final String EXPEND_CLASS = "支出";
     private static int num = 0;
 
     private final int id;
     private String billClass;
     private double money;
-    private String type;
+    private String  type;
     private String accountName;
     private Date time;
 
@@ -24,7 +25,7 @@ public class Bill implements Serializable, Parcelable {
         this.id = num++;
     }
 
-    public Bill(double money, String type, String account, Date time) {
+    public Bill(double money, String  type, String account, Date time) {
         this.id = num++;
         this.money = money;
         this.type = type;
@@ -32,17 +33,6 @@ public class Bill implements Serializable, Parcelable {
         this.time = time;
     }
 
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "id=" + id +
-                ", billClass=" + billClass +
-                ", money=" + money +
-                ", type=" + type +
-                ", accountName='" + accountName + '\'' +
-                ", time=" + time +
-                '}';
-    }
 
     protected Bill(Parcel in) {
         id = in.readInt();
@@ -99,7 +89,7 @@ public class Bill implements Serializable, Parcelable {
         this.money = money;
     }
 
-    public String getType() {
+    public String  getType() {
         return type;
     }
 
@@ -115,8 +105,17 @@ public class Bill implements Serializable, Parcelable {
         this.accountName = accountName;
     }
 
-    public Date getTime() {
-        return time;
+    public String  getTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
+
+        String date = "";
+        String year = String.valueOf(calendar.get(Calendar.YEAR));					//获取年份
+        String month = String.valueOf(calendar.get(Calendar.MONTH)) + 1;					//获取月份
+        String day = String.valueOf(calendar.get(Calendar.DATE));					//获取日
+        date = year+"-"+month+"-"+day;
+
+        return date;
     }
 
     public void setTime(Date time) {

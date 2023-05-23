@@ -1,75 +1,168 @@
 package cn.edu.jnu.account;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import cn.edu.jnu.account.data.Bill;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class DetailsFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DetailsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetailsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetailsFragment newInstance(String param1, String param2) {
-        DetailsFragment fragment = new DetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private View view;
+    private CustomAdapter recyclerViewAdapter;
+    private List<Bill> billsShow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        getParentFragmentManager().setFragmentResultListener("bill", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(String key,Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
-                Bill newbill = bundle.getParcelable("newbill");
-                // Do something with the result...
-                System.out.println(newbill.toString());
-            }
-        });
+
+
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details, container, false);
+        view = inflater.inflate(R.layout.fragment_details, container, false);
+
+        billsShow = new ArrayList<>();
+        Bill bill = new Bill();
+        bill.setAccountName("工商银行");
+        bill.setMoney(2000);
+        bill.setTime(new Date());
+        bill.setType("工资");
+        billsShow.add(bill);
+        billsShow.add(bill);
+        billsShow.add(bill);
+
+        initRecyclerView();
+        recyclerViewAdapter.notifyDataSetChanged();
+
+        return view;
+    }
+
+
+    // 初始化recycleView ----------------------------------------------------------------------------
+    @SuppressLint("NotifyDataSetChanged")
+    private void initRecyclerView() {
+        RecyclerView recyclerView = view.findViewById(R.id.fg_details_recycleView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerViewAdapter = new CustomAdapter(billsShow);
+        recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
+        recyclerView.setAdapter(recyclerViewAdapter);
+    }
+
+    public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+        private View.OnClickListener onClickListener;
+        private View.OnLongClickListener onLongClickListener;
+        private List<Bill> localDataSet;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            private final TextView textViewType;
+            private final TextView textViewAccount;
+            private final TextView textViewMoney;
+            private final TextView textViewDate;
+            private final ConstraintLayout constraintLayout;
+
+            public ViewHolder(View view) {
+                super(view);
+                // Define click listener for the ViewHolder's View
+
+                textViewType = (TextView) view.findViewById(R.id.textView_type);
+                textViewAccount = (TextView) view.findViewById(R.id.textView_account);
+                textViewMoney = (TextView) view.findViewById(R.id.textView_money);
+                textViewDate = (TextView) view.findViewById(R.id.textView_date);
+                constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintLayout);
+            }
+
+            public TextView getTextViewType() {
+                return textViewType;
+            }
+
+            public TextView getTextViewAccount() {
+                return textViewAccount;
+            }
+
+            public TextView getTextViewMoney() {
+                return textViewMoney;
+            }
+
+            public TextView getTextViewDate() {
+                return textViewDate;
+            }
+
+            public ConstraintLayout getConstraintLayout() {
+                return constraintLayout;
+            }
+        }
+
+
+        public CustomAdapter(List<Bill> dataSet) {
+            localDataSet = dataSet;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            // Create a new view, which defines the UI of the list item
+            View view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.item_details, viewGroup, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+            viewHolder.getTextViewType().setText(String.valueOf(localDataSet.get(position).getType()));
+            viewHolder.getTextViewAccount().setText(localDataSet.get(position).getAccountName());
+            viewHolder.getTextViewMoney().setText(String.valueOf(localDataSet.get(position).getMoney()));
+            viewHolder.getTextViewDate().setText(localDataSet.get(position).getTime());
+
+            ConstraintLayout constraintLayout = viewHolder.getConstraintLayout();
+            constraintLayout.setOnClickListener(onClickListener);
+            constraintLayout.setOnLongClickListener(onLongClickListener);
+        }
+
+        @Override
+        public int getItemCount() {
+            return localDataSet.size();
+        }
+
+        public void setOnClickListener(View.OnClickListener onClickListener) {
+            this.onClickListener = onClickListener;
+        }
+
+        public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+            this.onLongClickListener = onLongClickListener;
+        }
     }
 }
