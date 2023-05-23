@@ -9,14 +9,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Bill implements Serializable, Parcelable {
-    public static final int INCOME_CLASS = 0;
-    public static final int EXPEND_CLASS = 1;
+    public static final String INCOME_CLASS = "收入";
+    public static final String EXPEND_CLASS = "支出";
     private static int num = 0;
 
     private final int id;
-    private int billClass;
+    private String billClass;
     private double money;
-    private int type;
+    private String type;
     private String accountName;
     private Date time;
 
@@ -24,7 +24,7 @@ public class Bill implements Serializable, Parcelable {
         this.id = num++;
     }
 
-    public Bill(double money, int type, String account, Date time) {
+    public Bill(double money, String type, String account, Date time) {
         this.id = num++;
         this.money = money;
         this.type = type;
@@ -46,18 +46,18 @@ public class Bill implements Serializable, Parcelable {
 
     protected Bill(Parcel in) {
         id = in.readInt();
-        billClass = in.readInt();
+        billClass = in.readString();
         money = in.readDouble();
-        type = in.readInt();
+        type = in.readString();
         accountName = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeInt(billClass);
+        dest.writeString(billClass);
         dest.writeDouble(money);
-        dest.writeInt(type);
+        dest.writeString(type);
         dest.writeString(accountName);
     }
 
@@ -82,11 +82,11 @@ public class Bill implements Serializable, Parcelable {
         return id;
     }
 
-    public int getBillClass() {
+    public String getBillClass() {
         return billClass;
     }
 
-    public void setBillClass(int billClass) {
+    public void setBillClass(String billClass) {
         this.billClass = billClass;
     }
 
@@ -99,11 +99,11 @@ public class Bill implements Serializable, Parcelable {
         this.money = money;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 

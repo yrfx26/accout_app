@@ -4,4 +4,12 @@
         <item>收入</item>
         <item>支出</item>
     </string-array>
+
+    <string-array name="jizhang_type">
+        <item>吃</item>
+        <item>喝</item>
+        <item>玩</item>
+        <item>乐</item>
+    </string-array>
+
 </resources>

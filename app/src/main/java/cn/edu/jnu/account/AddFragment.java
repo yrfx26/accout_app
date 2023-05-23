@@ -1,5 +1,7 @@
 package cn.edu.jnu.account;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,12 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import cn.edu.jnu.account.data.Bill;
@@ -28,9 +38,12 @@ public class AddFragment extends Fragment {
     private EditText jizhang_et_money;
     private Spinner jizhang_spinner_type;
     private Spinner jizhang_spinner_account;
+    private Spinner jizhang_spinner_billClass;
     private EditText jizhang_et_time;
     private Button jizhang_bt_commit;
     private Bill bill;
+    private ArrayList<String> accountNames = new ArrayList<>();
+    private ArrayList<String> typeNames = new ArrayList<>();
 
     public AddFragment() {
         // Required empty public constructor
@@ -66,6 +79,29 @@ public class AddFragment extends Fragment {
         this.jizhang_spinner_account = view.findViewById(R.id.jizhang_spinner_account);
         this.jizhang_spinner_type = view.findViewById(R.id.jizhang_spinner_type);
         this.jizhang_bt_commit = view.findViewById(R.id.jizhang_bt_commit);
+        this.jizhang_spinner_billClass = view.findViewById(R.id.jizhang_spinner);
+
+        accountNames.add("账户1");
+        accountNames.add("添加账户");
+
+        jizhang_spinner_account = view.findViewById(R.id.jizhang_spinner_account);
+        ArrayAdapter<String> arrayAdapterLabel = new ArrayAdapter<String>(
+                getContext(), R.layout.item_spinner, accountNames);
+        arrayAdapterLabel.setDropDownViewResource(R.layout.item_spinner_drow_down);
+        jizhang_spinner_account.setAdapter(arrayAdapterLabel);
+
+        typeNames.add("吃");
+        typeNames.add("喝");
+        typeNames.add("玩");
+        typeNames.add("乐");
+        typeNames.add("添加类型");
+
+        jizhang_spinner_type = view.findViewById(R.id.jizhang_spinner_type);
+        ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(
+                getContext(), R.layout.item_spinner, typeNames);
+        arrayAdapterType.setDropDownViewResource(R.layout.item_spinner_drow_down);
+        jizhang_spinner_type.setAdapter(arrayAdapterType);
+
 
         /**
          * 给金额输入框绑定点击事件监听器
@@ -80,22 +116,13 @@ public class AddFragment extends Fragment {
         /**
          * 给收支类型下拉框绑定点击事件监听器
          */
-//        this.jizhang_spinner_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(view.getContext(),"click type position: "+position+" id: "+id,Toast.LENGTH_LONG);
-//            }
-//        });
+//        this.jizhang_spinner_type.setOnItemSelectedListener();
 
         /**
          * 给收支账户下拉框绑定点击事件监听器
          */
-//        this.jizhang_spinner_account.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(view.getContext(),"click account position: "+position+" id: "+id,Toast.LENGTH_LONG);
-//            }
-//        });
+//        this.jizhang_spinner_account.setOnItemSelectedListener();
+
 
         /**
          * 给收支时间输入框绑定点击事件监听器
@@ -104,6 +131,7 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"click time",Toast.LENGTH_LONG).show();
+                showDatePickerDialog(v);
             }
         });
 
@@ -115,11 +143,29 @@ public class AddFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(),"click commit",Toast.LENGTH_LONG).show();
                 bill = new Bill();
+
+                //设置bill的金额
                 bill.setMoney(Double.parseDouble(jizhang_et_money.getText().toString()));
-                bill.setType(1);
-                bill.setAccountName("account1");
-                bill.setTime(new Date(System.currentTimeMillis()));
-                if (0 != bill.getMoney() && null != bill.getAccountName() && null != bill.getTime()){
+
+                //设置bill类型
+                bill.setType(jizhang_spinner_type.getSelectedItem().toString());
+
+                //设置bill的账户类型
+                bill.setAccountName(jizhang_spinner_account.getSelectedItem().toString());
+
+                //设置billClass类型
+                bill.setBillClass(jizhang_spinner_billClass.getSelectedItem().toString());
+
+                //设置bill的时间
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    bill.setTime(format.parse(jizhang_et_time.getText().toString()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                //填好信息后将bill对象序列化之后传输到明细页面
+                if (0 != bill.getMoney() && null != bill.getAccountName() && null != bill.getTime() && bill.getBillClass() != null){
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("newbill", bill);
                     getParentFragmentManager().setFragmentResult("bill", bundle);
@@ -132,6 +178,29 @@ public class AddFragment extends Fragment {
 
         return view;
     }
+
+    /**
+     * 弹出对话框选择账单产生时间
+     * @param view
+     */
+    public void showDatePickerDialog(View view) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                // 处理选择的日期
+                String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                jizhang_et_time.setText(selectedDate);
+            }
+        }, year, month, dayOfMonth);
+
+        datePickerDialog.show();
+    }
+
 
     public EditText getJizhang_et_money() {
         return jizhang_et_money;
