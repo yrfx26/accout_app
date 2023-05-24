@@ -127,13 +127,6 @@ public class MainActivityTest {
                                 withParent(withId(R.id.fg_details_recycleView)))),
                         isDisplayed()));
         textView.check(matches(withText("150.0")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textView_money), withText("150.0"),
-                        withParent(allOf(withId(R.id.constraintLayout),
-                                withParent(withId(R.id.fg_details_recycleView)))),
-                        isDisplayed()));
-        textView2.check(matches(withText("150.0")));
     }
 
     private static Matcher<View> childAtPosition(
