@@ -106,12 +106,12 @@ public class AddFragment extends Fragment {
         /**
          * 给金额输入框绑定点击事件监听器
          */
-        this.jizhang_et_money.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"click money",Toast.LENGTH_LONG).show();
-            }
-        });
+//        this.jizhang_et_money.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(),"click money",Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         /**
          * 给收支类型下拉框绑定点击事件监听器
@@ -130,7 +130,7 @@ public class AddFragment extends Fragment {
         this.jizhang_et_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"click time",Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(),"click time",Toast.LENGTH_LONG).show();
                 showDatePickerDialog(v);
             }
         });
