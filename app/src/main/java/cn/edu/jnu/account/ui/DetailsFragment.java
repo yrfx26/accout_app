@@ -1,4 +1,4 @@
-package cn.edu.jnu.account;
+package cn.edu.jnu.account.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Bill;
 
 
@@ -90,7 +91,7 @@ public class DetailsFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+    public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private View.OnClickListener onClickListener;
         private View.OnLongClickListener onLongClickListener;
         private List<Bill> localDataSet;
@@ -106,11 +107,11 @@ public class DetailsFragment extends Fragment {
                 super(view);
                 // Define click listener for the ViewHolder's View
 
-                textViewType = (TextView) view.findViewById(R.id.textView_type);
-                textViewAccount = (TextView) view.findViewById(R.id.textView_account);
-                textViewMoney = (TextView) view.findViewById(R.id.textView_money);
-                textViewDate = (TextView) view.findViewById(R.id.textView_date);
-                constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintLayout);
+                textViewType = view.findViewById(R.id.textView_type);
+                textViewAccount = view.findViewById(R.id.textView_account);
+                textViewMoney = view.findViewById(R.id.textView_money);
+                textViewDate = view.findViewById(R.id.textView_date);
+                constraintLayout = view.findViewById(R.id.constraintLayout);
             }
 
             public TextView getTextViewType() {

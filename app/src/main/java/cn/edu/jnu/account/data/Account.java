@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Account implements Serializable, Parcelable {
     private static int num = 0;
@@ -14,7 +15,7 @@ public class Account implements Serializable, Parcelable {
     private final int id;
     private String name;
     private String remarks;
-    private String money;
+    private double money;
 
     public Account() {
         id = num++;
@@ -24,7 +25,7 @@ public class Account implements Serializable, Parcelable {
         id = in.readInt();
         name = in.readString();
         remarks = in.readString();
-        money = in.readString();
+        money = in.readDouble();
     }
 
     @Override
@@ -32,7 +33,7 @@ public class Account implements Serializable, Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(remarks);
-        dest.writeString(money);
+        dest.writeDouble(money);
     }
 
     @Override
@@ -72,11 +73,11 @@ public class Account implements Serializable, Parcelable {
         this.remarks = remarks;
     }
 
-    public String getMoney() {
+    public Double getMoney() {
         return money;
     }
 
-    public void setMoney(String money) {
+    public void setMoney(Double money) {
         this.money = money;
     }
 

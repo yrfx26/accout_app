@@ -7,35 +7,35 @@
 
     <fragment
         android:id="@+id/navigation_item1"
-        android:name="cn.edu.jnu.account.DetailsFragment"
+        android:name="cn.edu.jnu.account.ui.DetailsFragment"
         android:label="@string/title_size"
         tools:layout="@layout/fragment_details" >
     </fragment>
 
     <fragment
         android:id="@+id/navigation_item2"
-        android:name="cn.edu.jnu.account.ChartFragment"
+        android:name="cn.edu.jnu.account.ui.ChartFragment"
         android:label="@string/title_chart"
         tools:layout="@layout/fragment_chart" >
     </fragment>
 
     <fragment
         android:id="@+id/navigation_item3"
-        android:name="cn.edu.jnu.account.AddFragment"
+        android:name="cn.edu.jnu.account.ui.AddFragment"
         android:label="@string/title_add"
         tools:layout="@layout/fragment_add" >
     </fragment>
 
     <fragment
         android:id="@+id/navigation_item4"
-        android:name="cn.edu.jnu.account.AccountFragment"
+        android:name="cn.edu.jnu.account.ui.AccountFragment"
         android:label="账户"
         tools:layout="@layout/fragment_account" >
     </fragment>
 
     <fragment
         android:id="@+id/navigation_item5"
-        android:name="cn.edu.jnu.account.MineFragment"
+        android:name="cn.edu.jnu.account.ui.MineFragment"
         android:label="我的"
         tools:layout="@layout/fragment_mine" />
 </navigation>

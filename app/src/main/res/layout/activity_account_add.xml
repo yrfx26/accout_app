@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".AccountAddActivity">
 
+<!--    <com.google.android.material.appbar.MaterialToolbar-->
+<!--        android:id="@+id/materialToolbar_account"-->
+<!--        android:layout_width="409dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:layout_marginEnd="1dp"-->
+<!--        android:layout_marginBottom="675dp"-->
+<!--        android:background="@color/yellow"-->
+<!--        android:minHeight="?attr/actionBarSize"-->
+<!--        android:theme="?attr/actionBarTheme"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:title="新建账户"-->
+<!--        app:titleCentered="true" />-->
+
     <EditText
         android:id="@+id/editTextTextPersonName4"
         android:layout_width="wrap_content"
@@ -26,6 +43,7 @@
         android:text="余额"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -49,25 +67,11 @@
         android:text="备注"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="675dp"
-        android:background="@color/yellow"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="新建账户"
-        app:titleCentered="true" />
+
 
     <TextView
         android:id="@+id/textView12"
@@ -77,11 +81,12 @@
         android:text="名称"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.147"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_account"
         app:layout_constraintVertical_bias="0.027" />
 
     <EditText
@@ -96,7 +101,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView12" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button_confirm_add_account"
         android:layout_width="394dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -107,5 +112,30 @@
         app:backgroundTint="@color/yellow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加账户"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

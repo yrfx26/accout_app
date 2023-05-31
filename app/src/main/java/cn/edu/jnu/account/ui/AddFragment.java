@@ -1,4 +1,4 @@
-package cn.edu.jnu.account;
+package cn.edu.jnu.account.ui;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Bill;
 
 /**
