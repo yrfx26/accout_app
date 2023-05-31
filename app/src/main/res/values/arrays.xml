@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="jizhang">
+    <string-array name="add">
         <item>收入</item>
         <item>支出</item>
     </string-array>
 
-    <string-array name="jizhang_type">
+    <string-array name="add_type">
         <item>吃</item>
         <item>喝</item>
         <item>玩</item>

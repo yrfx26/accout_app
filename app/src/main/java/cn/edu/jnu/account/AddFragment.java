@@ -1,7 +1,6 @@
 package cn.edu.jnu.account;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,22 +8,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
 
 import cn.edu.jnu.account.data.Bill;
 
@@ -35,12 +29,12 @@ import cn.edu.jnu.account.data.Bill;
  */
 public class AddFragment extends Fragment {
 
-    private EditText jizhang_et_money;
-    private Spinner jizhang_spinner_type;
-    private Spinner jizhang_spinner_account;
-    private Spinner jizhang_spinner_billClass;
-    private EditText jizhang_et_time;
-    private Button jizhang_bt_commit;
+    private EditText add_et_money;
+    private Spinner add_spinner_type;
+    private Spinner add_spinner_account;
+    private Spinner add_spinner_billClass;
+    private EditText add_et_time;
+    private Button add_bt_commit;
     private Bill bill;
     private ArrayList<String> accountNames = new ArrayList<>();
     private ArrayList<String> typeNames = new ArrayList<>();
@@ -74,21 +68,21 @@ public class AddFragment extends Fragment {
         /**
          * 给四个用户输入框绑定控件
          */
-        this.jizhang_et_money = view.findViewById(R.id.jizhang_et_money);
-        this.jizhang_et_time = view.findViewById(R.id.jizhang_et_time);
-        this.jizhang_spinner_account = view.findViewById(R.id.jizhang_spinner_account);
-        this.jizhang_spinner_type = view.findViewById(R.id.jizhang_spinner_type);
-        this.jizhang_bt_commit = view.findViewById(R.id.jizhang_bt_commit);
-        this.jizhang_spinner_billClass = view.findViewById(R.id.jizhang_spinner);
+        this.add_et_money = view.findViewById(R.id.add_et_money);
+        this.add_et_time = view.findViewById(R.id.add_et_time);
+        this.add_spinner_account = view.findViewById(R.id.add_spinner_account);
+        this.add_spinner_type = view.findViewById(R.id.add_spinner_type);
+        this.add_bt_commit = view.findViewById(R.id.add_bt_commit);
+        this.add_spinner_billClass = view.findViewById(R.id.add_spinner);
 
         accountNames.add("账户1");
         accountNames.add("添加账户");
 
-        jizhang_spinner_account = view.findViewById(R.id.jizhang_spinner_account);
+        add_spinner_account = view.findViewById(R.id.add_spinner_account);
         ArrayAdapter<String> arrayAdapterLabel = new ArrayAdapter<String>(
                 getContext(), R.layout.item_spinner, accountNames);
         arrayAdapterLabel.setDropDownViewResource(R.layout.item_spinner_drow_down);
-        jizhang_spinner_account.setAdapter(arrayAdapterLabel);
+        add_spinner_account.setAdapter(arrayAdapterLabel);
 
         typeNames.add("吃");
         typeNames.add("喝");
@@ -96,22 +90,22 @@ public class AddFragment extends Fragment {
         typeNames.add("乐");
         typeNames.add("添加类型");
 
-        jizhang_spinner_type = view.findViewById(R.id.jizhang_spinner_type);
+        add_spinner_type = view.findViewById(R.id.add_spinner_type);
         ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(
                 getContext(), R.layout.item_spinner, typeNames);
         arrayAdapterType.setDropDownViewResource(R.layout.item_spinner_drow_down);
-        jizhang_spinner_type.setAdapter(arrayAdapterType);
+        add_spinner_type.setAdapter(arrayAdapterType);
 
 
         /**
          * 给金额输入框绑定点击事件监听器
          */
-        this.jizhang_et_money.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(),"click money",Toast.LENGTH_LONG).show();
-            }
-        });
+//        this.jizhang_et_money.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(),"click money",Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         /**
          * 给收支类型下拉框绑定点击事件监听器
@@ -127,10 +121,10 @@ public class AddFragment extends Fragment {
         /**
          * 给收支时间输入框绑定点击事件监听器
          */
-        this.jizhang_et_time.setOnClickListener(new View.OnClickListener() {
+        this.add_et_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"click time",Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(),"click time",Toast.LENGTH_LONG).show();
                 showDatePickerDialog(v);
             }
         });
@@ -138,28 +132,28 @@ public class AddFragment extends Fragment {
         /**
          * 给确认按钮绑定点击事件监听器
          */
-        this.jizhang_bt_commit.setOnClickListener(new View.OnClickListener() {
+        this.add_bt_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"click commit",Toast.LENGTH_LONG).show();
                 bill = new Bill();
 
                 //设置bill的金额
-                bill.setMoney(Double.parseDouble(jizhang_et_money.getText().toString()));
+                bill.setMoney(Double.parseDouble(add_et_money.getText().toString()));
 
                 //设置bill类型
-                bill.setType(jizhang_spinner_type.getSelectedItem().toString());
+                bill.setType(add_spinner_type.getSelectedItem().toString());
 
                 //设置bill的账户类型
-                bill.setAccountName(jizhang_spinner_account.getSelectedItem().toString());
+                bill.setAccountName(add_spinner_account.getSelectedItem().toString());
 
                 //设置billClass类型
-                bill.setBillClass(jizhang_spinner_billClass.getSelectedItem().toString());
+                bill.setBillClass(add_spinner_billClass.getSelectedItem().toString());
 
                 //设置bill的时间
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 try {
-                    bill.setTime(format.parse(jizhang_et_time.getText().toString()));
+                    bill.setTime(format.parse(add_et_time.getText().toString()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -194,7 +188,7 @@ public class AddFragment extends Fragment {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 // 处理选择的日期
                 String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
-                jizhang_et_time.setText(selectedDate);
+                add_et_time.setText(selectedDate);
             }
         }, year, month, dayOfMonth);
 
@@ -202,43 +196,43 @@ public class AddFragment extends Fragment {
     }
 
 
-    public EditText getJizhang_et_money() {
-        return jizhang_et_money;
+    public EditText getAdd_et_money() {
+        return add_et_money;
     }
 
-    public void setJizhang_et_money(EditText jizhang_et_money) {
-        this.jizhang_et_money = jizhang_et_money;
+    public void setAdd_et_money(EditText add_et_money) {
+        this.add_et_money = add_et_money;
     }
 
-    public Spinner getJizhang_spinner_type() {
-        return jizhang_spinner_type;
+    public Spinner getAdd_spinner_type() {
+        return add_spinner_type;
     }
 
-    public void setJizhang_spinner_type(Spinner jizhang_spinner_type) {
-        this.jizhang_spinner_type = jizhang_spinner_type;
+    public void setAdd_spinner_type(Spinner add_spinner_type) {
+        this.add_spinner_type = add_spinner_type;
     }
 
-    public Spinner getJizhang_spinner_account() {
-        return jizhang_spinner_account;
+    public Spinner getAdd_spinner_account() {
+        return add_spinner_account;
     }
 
-    public void setJizhang_spinner_account(Spinner jizhang_spinner_account) {
-        this.jizhang_spinner_account = jizhang_spinner_account;
+    public void setAdd_spinner_account(Spinner add_spinner_account) {
+        this.add_spinner_account = add_spinner_account;
     }
 
-    public EditText getJizhang_et_time() {
-        return jizhang_et_time;
+    public EditText getAdd_et_time() {
+        return add_et_time;
     }
 
-    public void setJizhang_et_time(EditText jizhang_et_time) {
-        this.jizhang_et_time = jizhang_et_time;
+    public void setAdd_et_time(EditText add_et_time) {
+        this.add_et_time = add_et_time;
     }
 
-    public Button getJizhang_bt_commit() {
-        return jizhang_bt_commit;
+    public Button getAdd_bt_commit() {
+        return add_bt_commit;
     }
 
-    public void setJizhang_bt_commit(Button jizhang_bt_commit) {
-        this.jizhang_bt_commit = jizhang_bt_commit;
+    public void setAdd_bt_commit(Button add_bt_commit) {
+        this.add_bt_commit = add_bt_commit;
     }
 }
