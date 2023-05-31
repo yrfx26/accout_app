@@ -1,4 +1,4 @@
-package cn.edu.jnu.account;
+package cn.edu.jnu.account.ui;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import cn.edu.jnu.account.R;
 
 /**
  * A simple {@link Fragment} subclass.
