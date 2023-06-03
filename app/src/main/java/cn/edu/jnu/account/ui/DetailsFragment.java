@@ -1,14 +1,15 @@
-package cn.edu.jnu.account;
+package cn.edu.jnu.account.ui;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,47 +19,68 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Bill;
-import cn.edu.jnu.account.ui.DetailsFragment;
 
 
-public class AccountDetailsActivity extends AppCompatActivity {
-    private static final int RESULT_CODE_CHANGE = 1;
-    private static final int RESULT_CODE_NO_CHANGE = 0;
-    private DetailsFragment.CustomAdapter recyclerViewAdapter;
+public class DetailsFragment extends Fragment {
+    private View view;
+    private CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_details);
+        getParentFragmentManager().setFragmentResultListener("bill", this, new FragmentResultListener() {
+            public void onFragmentResult(String key,Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                Bill newbill = bundle.getParcelable("newbill");
+                // Do something with the result...
+                billsShow.add(newbill);
+            }
+        });
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_details, container, false);
 
         billsShow = new ArrayList<>();
         Bill bill = new Bill();
-        bill.setAccountName("工商银行232");
+        bill.setAccountName("工商银行");
         bill.setMoney(2000);
         bill.setTime(new Date());
         bill.setType("工资");
         billsShow.add(bill);
         billsShow.add(bill);
         billsShow.add(bill);
-        billsShow.add(bill);
 
         initRecyclerView();
-        initNavigation();
+        recyclerViewAdapter.notifyDataSetChanged();
+
+        return view;
     }
 
+
+    // 初始化recycleView ----------------------------------------------------------------------------
+    @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView_at_account_details);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = view.findViewById(R.id.fg_details_recycleView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        recyclerViewAdapter = new DetailsFragment.CustomAdapter(billsShow);
+        recyclerViewAdapter = new CustomAdapter(billsShow);
         recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(Acc.this, BookDetailsActivity.class);
+
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
@@ -71,35 +93,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    private void initNavigation() {
-        Toolbar toolbar = findViewById(R.id.toolbar_account_details);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack(false);
-            }
-        });
-    }
-
-
-    private void goBack(boolean isChange) {
-        Intent intent = new Intent();
-        if (isChange) {
-            Bundle bundle = new Bundle();
-            setResult(RESULT_CODE_CHANGE, intent);
-        }
-        else
-            setResult(RESULT_CODE_NO_CHANGE);
-        AccountDetailsActivity.this.finish();
-    }
-
-    public static class CustomAdapter extends RecyclerView.Adapter<AccountDetailsActivity.CustomAdapter.ViewHolder> {
+    public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private View.OnClickListener onClickListener;
         private View.OnLongClickListener onLongClickListener;
-        private final List<Bill> localDataSet;
+        private List<Bill> localDataSet;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView textViewType;
+            private final TextView textViewAccount;
             private final TextView textViewMoney;
             private final TextView textViewDate;
             private final ConstraintLayout constraintLayout;
@@ -107,7 +108,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
             public ViewHolder(View view) {
                 super(view);
                 // Define click listener for the ViewHolder's View
+
                 textViewType = view.findViewById(R.id.textView_type);
+                textViewAccount = view.findViewById(R.id.textView_account);
                 textViewMoney = view.findViewById(R.id.textView_money);
                 textViewDate = view.findViewById(R.id.textView_date);
                 constraintLayout = view.findViewById(R.id.constraintLayout);
@@ -115,6 +118,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
             public TextView getTextViewType() {
                 return textViewType;
+            }
+
+            public TextView getTextViewAccount() {
+                return textViewAccount;
             }
 
             public TextView getTextViewMoney() {
@@ -137,16 +144,17 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public AccountDetailsActivity.CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view, which defines the UI of the list item
             View view = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.item_account_details, viewGroup, false);
-            return new AccountDetailsActivity.CustomAdapter.ViewHolder(view);
+                    .inflate(R.layout.item_details, viewGroup, false);
+            return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(AccountDetailsActivity.CustomAdapter.ViewHolder viewHolder, final int position) {
+        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
             viewHolder.getTextViewType().setText(String.valueOf(localDataSet.get(position).getType()));
+            viewHolder.getTextViewAccount().setText(localDataSet.get(position).getAccountName());
             viewHolder.getTextViewMoney().setText(String.valueOf(localDataSet.get(position).getMoney()));
             viewHolder.getTextViewDate().setText(localDataSet.get(position).getTime());
 

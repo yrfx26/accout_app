@@ -1,43 +1,63 @@
-package cn.edu.jnu.account;
+package cn.edu.jnu.account.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import cn.edu.jnu.account.data.Bill;
+import cn.edu.jnu.account.AccountAddActivity;
+import cn.edu.jnu.account.AccountDetailsActivity;
+import cn.edu.jnu.account.R;
+import cn.edu.jnu.account.data.Account;
 
 
-public class DetailsFragment extends Fragment {
+public class AccountFragment extends Fragment {
+    private AccountFragment.CustomAdapter recyclerViewAdapter;
     private View view;
-    private CustomAdapter recyclerViewAdapter;
-    private List<Bill> billsShow;
+    private List<Account> accountsShow;
+
+    private final ActivityResultLauncher<Intent> accountAddLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (null != result) {
+                    
+                }
+            }
+    );
+
+    private final ActivityResultLauncher<Intent> accountDetailsLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (null != result) {
+
+                }
+            }
+    );
+
+    public static AccountFragment newInstance(String param1, String param2) {
+        AccountFragment fragment = new AccountFragment();
+        Bundle args = new Bundle();
+
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getParentFragmentManager().setFragmentResultListener("bill", this, new FragmentResultListener() {
-            public void onFragmentResult(String key,Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
-                Bill newbill = bundle.getParcelable("newbill");
-                // Do something with the result...
-                billsShow.add(newbill);
-            }
-        });
 
     }
 
@@ -46,38 +66,36 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_details, container, false);
+        view =  inflater.inflate(R.layout.fragment_account, container, false);
 
-        billsShow = new ArrayList<>();
-        Bill bill = new Bill();
-        bill.setAccountName("工商银行");
-        bill.setMoney(2000);
-        bill.setTime(new Date());
-        bill.setType("工资");
-        billsShow.add(bill);
-        billsShow.add(bill);
-        billsShow.add(bill);
+        accountsShow = new ArrayList<>();
+        Account account = new Account();
+        account.setName("工商银行卡");
+        account.setMoney(10000.00);
 
+        accountsShow.add(account);
+        accountsShow.add(account);
+        accountsShow.add(account);
+
+        initAddButton();
         initRecyclerView();
         recyclerViewAdapter.notifyDataSetChanged();
 
         return view;
     }
 
-
-    // 初始化recycleView ----------------------------------------------------------------------------
-    @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView() {
-        RecyclerView recyclerView = view.findViewById(R.id.fg_details_recycleView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_fg_account);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        recyclerViewAdapter = new CustomAdapter(billsShow);
+        recyclerViewAdapter = new AccountFragment.CustomAdapter(accountsShow);
         recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), AccountDetailsActivity.class);
+                accountAddLaunch.launch(intent);
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
@@ -90,43 +108,42 @@ public class DetailsFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
+    private void initAddButton() {
+        Button addButton = view.findViewById(R.id.button_add_account);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AccountAddActivity.class);
+                accountAddLaunch.launch(intent);
+            }
+        });
+    }
+
+
     public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private View.OnClickListener onClickListener;
         private View.OnLongClickListener onLongClickListener;
-        private List<Bill> localDataSet;
+        private List<Account> localDataSet;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private final TextView textViewType;
-            private final TextView textViewAccount;
+            private final TextView textViewName;
             private final TextView textViewMoney;
-            private final TextView textViewDate;
             private final ConstraintLayout constraintLayout;
 
             public ViewHolder(View view) {
                 super(view);
                 // Define click listener for the ViewHolder's View
-
-                textViewType = (TextView) view.findViewById(R.id.textView_type);
-                textViewAccount = (TextView) view.findViewById(R.id.textView_account);
-                textViewMoney = (TextView) view.findViewById(R.id.textView_money);
-                textViewDate = (TextView) view.findViewById(R.id.textView_date);
-                constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintLayout);
+                constraintLayout = view.findViewById(R.id.constraintLayout_account_item);
+                textViewName = view.findViewById(R.id.textView_account_item_name);
+                textViewMoney = view.findViewById(R.id.textView_account_item_money);
             }
 
-            public TextView getTextViewType() {
-                return textViewType;
-            }
-
-            public TextView getTextViewAccount() {
-                return textViewAccount;
+            public TextView getTextViewName() {
+                return textViewName;
             }
 
             public TextView getTextViewMoney() {
                 return textViewMoney;
-            }
-
-            public TextView getTextViewDate() {
-                return textViewDate;
             }
 
             public ConstraintLayout getConstraintLayout() {
@@ -135,7 +152,7 @@ public class DetailsFragment extends Fragment {
         }
 
 
-        public CustomAdapter(List<Bill> dataSet) {
+        public CustomAdapter(List<Account> dataSet) {
             localDataSet = dataSet;
         }
 
@@ -144,17 +161,15 @@ public class DetailsFragment extends Fragment {
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view, which defines the UI of the list item
             View view = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.item_details, viewGroup, false);
-            return new ViewHolder(view);
+                    .inflate(R.layout.item_account, viewGroup, false);
+            return new AccountFragment.CustomAdapter.ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-            viewHolder.getTextViewType().setText(String.valueOf(localDataSet.get(position).getType()));
-            viewHolder.getTextViewAccount().setText(localDataSet.get(position).getAccountName());
+            viewHolder.getTextViewName().setText(localDataSet.get(position).getName());
+            System.out.println(localDataSet.get(position).getName());
             viewHolder.getTextViewMoney().setText(String.valueOf(localDataSet.get(position).getMoney()));
-            viewHolder.getTextViewDate().setText(localDataSet.get(position).getTime());
-
             ConstraintLayout constraintLayout = viewHolder.getConstraintLayout();
             constraintLayout.setOnClickListener(onClickListener);
             constraintLayout.setOnLongClickListener(onLongClickListener);
