@@ -28,6 +28,8 @@ public class DetailsFragment extends Fragment {
     private CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

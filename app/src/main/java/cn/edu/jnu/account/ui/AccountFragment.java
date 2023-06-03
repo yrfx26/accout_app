@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.jnu.account.AccountAddActivity;
+import cn.edu.jnu.account.AccountDetailsActivity;
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Account;
 
@@ -35,6 +36,14 @@ public class AccountFragment extends Fragment {
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (null != result) {
                     
+                }
+            }
+    );
+
+    private final ActivityResultLauncher<Intent> accountDetailsLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (null != result) {
+
                 }
             }
     );
@@ -85,6 +94,8 @@ public class AccountFragment extends Fragment {
         recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AccountDetailsActivity.class);
+                accountAddLaunch.launch(intent);
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
