@@ -29,6 +29,21 @@ public class DetailsFragment extends Fragment {
     private List<Bill> billsShow;
 
 
+    public CustomAdapter getRecyclerViewAdapter() {
+        return recyclerViewAdapter;
+    }
+
+    public List<Bill> getBillsShow() {
+        return billsShow;
+    }
+
+    public void setRecyclerViewAdapter(CustomAdapter recyclerViewAdapter) {
+        this.recyclerViewAdapter = recyclerViewAdapter;
+    }
+
+    public void setBillsShow(List<Bill> billsShow) {
+        this.billsShow = billsShow;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +72,7 @@ public class DetailsFragment extends Fragment {
         bill.setMoney(2000);
         bill.setTime(new Date());
         bill.setType("工资");
+        bill.setBillClass(Bill.INCOME_CLASS);
         billsShow.add(bill);
         billsShow.add(bill);
         billsShow.add(bill);
@@ -67,6 +83,9 @@ public class DetailsFragment extends Fragment {
         return view;
     }
 
+    public void init() {
+        initRecyclerView();
+    }
 
     // 初始化recycleView ----------------------------------------------------------------------------
     @SuppressLint("NotifyDataSetChanged")
