@@ -134,7 +134,7 @@ public class MainActivityTest2 {
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.textView_money), withText("200.0"),
-                        withParent(allOf(withId(R.id.constraintLayout),
+                        withParent(allOf(withId(R.id.recyclerView_fg_account_),
                                 withParent(withId(R.id.fg_details_recycleView)))),
                         isDisplayed()));
         textView.check(matches(withText("2")));

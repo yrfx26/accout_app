@@ -27,4 +27,15 @@
         <item name="android:textColor">@color/white</item>
         <item name="background">@color/yellow</item>
     </style>
+
+     styles.xml
+    <style name="toolbar_style_bill_detail" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:background">@color/yellow</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

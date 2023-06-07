@@ -1,5 +1,7 @@
 package cn.edu.jnu.account;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,6 +29,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private static final int RESULT_CODE_NO_CHANGE = 0;
     private DetailsFragment.CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(Acc.this, BookDetailsActivity.class);
+
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
@@ -110,7 +116,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                 textViewType = view.findViewById(R.id.textView_type);
                 textViewMoney = view.findViewById(R.id.textView_money);
                 textViewDate = view.findViewById(R.id.textView_date);
-                constraintLayout = view.findViewById(R.id.constraintLayout);
+                constraintLayout = view.findViewById(R.id.recyclerView_fg_account_);
             }
 
             public TextView getTextViewType() {

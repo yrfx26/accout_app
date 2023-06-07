@@ -1,9 +1,13 @@
 package cn.edu.jnu.account.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
@@ -19,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.edu.jnu.account.AccountAddActivity;
+import cn.edu.jnu.account.BillDetailsActivity;
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Bill;
 
@@ -28,6 +34,23 @@ public class DetailsFragment extends Fragment {
     private CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
 
+    private final ActivityResultLauncher<Intent> billDetailsLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (null != result) {
+
+                }
+            }
+    );
+
+    @Nullable
+    @Override
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
 
     public CustomAdapter getRecyclerViewAdapter() {
         return recyclerViewAdapter;
@@ -37,12 +60,12 @@ public class DetailsFragment extends Fragment {
         return billsShow;
     }
 
-    public void setRecyclerViewAdapter(CustomAdapter recyclerViewAdapter) {
-        this.recyclerViewAdapter = recyclerViewAdapter;
-    }
-
     public void setBillsShow(List<Bill> billsShow) {
         this.billsShow = billsShow;
+    }
+
+    public void setRecyclerViewAdapter(CustomAdapter recyclerViewAdapter) {
+        this.recyclerViewAdapter = recyclerViewAdapter;
     }
 
     @Override
@@ -99,7 +122,8 @@ public class DetailsFragment extends Fragment {
         recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), BillDetailsActivity.class);
+                billDetailsLaunch.launch(intent);
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
@@ -132,7 +156,7 @@ public class DetailsFragment extends Fragment {
                 textViewAccount = view.findViewById(R.id.textView_account);
                 textViewMoney = view.findViewById(R.id.textView_money);
                 textViewDate = view.findViewById(R.id.textView_date);
-                constraintLayout = view.findViewById(R.id.constraintLayout);
+                constraintLayout = view.findViewById(R.id.recyclerView_fg_account_);
             }
 
             public TextView getTextViewType() {
@@ -195,4 +219,7 @@ public class DetailsFragment extends Fragment {
             this.onLongClickListener = onLongClickListener;
         }
     }
+
+
+
 }

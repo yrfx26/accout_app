@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
+
+
+    <EditText
+        android:id="@+id/description_bill_detail"
+        android:layout_width="150dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/imageViewAccount2"
+        app:layout_constraintTop_toBottomOf="@+id/account_bill_detail"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageViewAccount2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAccount" />
+
+    <TextView
+        android:id="@+id/textViewAccount2"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:text="描述"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAccount2" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_bill_detail"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/yellow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="账单详情"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_constraintHorizontal_bias="0.5"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/account_bill_detail"
+        android:layout_width="150dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/imageViewAccount"
+        app:layout_constraintTop_toBottomOf="@+id/time_bill_detail"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/time_bill_detail"
+        android:layout_width="150dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/imageViewTime"
+        app:layout_constraintTop_toBottomOf="@+id/money_bill_detail"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/money_bill_detail"
+        android:layout_width="150dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/imageViewAmount"
+        app:layout_constraintTop_toBottomOf="@+id/type_bill_detail"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageViewType"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_bill_detail" />
+
+    <ImageView
+        android:id="@+id/imageViewAmount"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_money"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewType" />
+
+    <TextView
+        android:id="@+id/textViewType"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:text="收支"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewType" />
+
+    <TextView
+        android:id="@+id/textViewAmount"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:text="金额"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAmount" />
+
+
+
+    <ImageView
+        android:id="@+id/imageViewAccount"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTime" />
+
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:text="时间"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTime" />
+
+    <ImageView
+        android:id="@+id/imageViewTime"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAmount" />
+
+    <EditText
+        android:id="@+id/type_bill_detail"
+        android:layout_width="150dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/imageViewType"
+        app:layout_constraintTop_toTopOf="@+id/imageViewType"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textViewAccount"
+        android:layout_width="48dp"
+        android:layout_height="20dp"
+        android:text="账户"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAccount" />
+
+
+    <!-- 其他项的布局和约束 -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
