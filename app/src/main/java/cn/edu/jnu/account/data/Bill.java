@@ -3,8 +3,6 @@ package cn.edu.jnu.account.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,6 +17,18 @@ public class Bill implements Serializable, Parcelable {
     private double money;
     private String  type;
     private String accountName;
+    private String description;
+
+    public Bill(String billClass, double money, String type, String accountName, String description, Date time) {
+        this.id = num++;
+        this.billClass = billClass;
+        this.money = money;
+        this.type = type;
+        this.accountName = accountName;
+        this.description = description;
+        this.time = time;
+    }
+
     private Date time;
 
     public Bill() {
@@ -31,6 +41,7 @@ public class Bill implements Serializable, Parcelable {
         this.type = type;
         this.accountName = account;
         this.time = time;
+
     }
 
 
@@ -40,6 +51,7 @@ public class Bill implements Serializable, Parcelable {
         money = in.readDouble();
         type = in.readString();
         accountName = in.readString();
+        description = in.readString();
     }
 
     @Override
@@ -49,6 +61,7 @@ public class Bill implements Serializable, Parcelable {
         dest.writeDouble(money);
         dest.writeString(type);
         dest.writeString(accountName);
+        dest.writeString(description);
     }
 
     @Override
@@ -70,6 +83,15 @@ public class Bill implements Serializable, Parcelable {
 
     public int getId() {
         return id;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getBillClass() {
@@ -122,4 +144,15 @@ public class Bill implements Serializable, Parcelable {
         this.time = time;
     }
 
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", billClass='" + billClass + '\'' +
+                ", money=" + money +
+                ", type='" + type + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", description='" + description + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }

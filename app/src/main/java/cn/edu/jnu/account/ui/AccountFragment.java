@@ -95,7 +95,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AccountDetailsActivity.class);
-                accountAddLaunch.launch(intent);
+                accountDetailsLaunch.launch(intent);
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {

@@ -37,6 +37,7 @@ public class AddFragment extends Fragment {
     private EditText add_et_time;
     private Button add_bt_commit;
     private Bill bill;
+    private EditText add_et_description;
     private ArrayList<String> accountNames = new ArrayList<>();
     private ArrayList<String> typeNames = new ArrayList<>();
 
@@ -67,7 +68,7 @@ public class AddFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
 
         /**
-         * 给四个用户输入框绑定控件
+         * 给五个个用户输入框绑定控件
          */
         this.add_et_money = view.findViewById(R.id.add_et_money);
         this.add_et_time = view.findViewById(R.id.add_et_time);
@@ -75,6 +76,7 @@ public class AddFragment extends Fragment {
         this.add_spinner_type = view.findViewById(R.id.add_spinner_type);
         this.add_bt_commit = view.findViewById(R.id.add_bt_commit);
         this.add_spinner_billClass = view.findViewById(R.id.add_spinner);
+        this.add_et_description = view.findViewById(R.id.add_et_description);
 
         accountNames.add("账户1");
         accountNames.add("添加账户");
@@ -151,6 +153,10 @@ public class AddFragment extends Fragment {
                 //设置billClass类型
                 bill.setBillClass(add_spinner_billClass.getSelectedItem().toString());
 
+                System.out.println("description: "+add_et_description != null);
+                //设置description
+                bill.setDescription(add_et_description.getText().toString());
+
                 //设置bill的时间
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 try {
@@ -160,7 +166,7 @@ public class AddFragment extends Fragment {
                 }
 
                 //填好信息后将bill对象序列化之后传输到明细页面
-                if (0 != bill.getMoney() && null != bill.getAccountName() && null != bill.getTime() && bill.getBillClass() != null){
+                if (null != bill.getDescription() && 0 != bill.getMoney() && null != bill.getAccountName() && null != bill.getTime() && bill.getBillClass() != null){
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("newbill", bill);
                     getParentFragmentManager().setFragmentResult("bill", bundle);
