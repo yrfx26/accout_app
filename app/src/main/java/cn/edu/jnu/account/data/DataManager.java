@@ -1,11 +1,16 @@
 package cn.edu.jnu.account.data;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataManager {
     private List<Bill> bills;
     private List<Account> accounts;
+
+    public void saveAccounts(List<Account> accounts) {
+
+    }
 
     public void addBill(Bill bill) {
 
