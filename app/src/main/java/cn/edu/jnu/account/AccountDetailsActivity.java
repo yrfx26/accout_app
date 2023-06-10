@@ -1,7 +1,5 @@
 package cn.edu.jnu.account;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,12 +12,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.edu.jnu.account.data.Account;
 import cn.edu.jnu.account.data.Bill;
 import cn.edu.jnu.account.ui.DetailsFragment;
 
@@ -29,6 +29,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private static final int RESULT_CODE_NO_CHANGE = 0;
     private DetailsFragment.CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
+    private int positionGet;
+    private Account accountGet;
 
 
 
@@ -37,6 +39,13 @@ public class AccountDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_details);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        accountGet = bundle.getParcelable("accountItem");
+        positionGet = bundle.getInt("position");
+        assert accountGet != null;
+
 
         billsShow = new ArrayList<>();
         Bill bill = new Bill();
@@ -49,8 +58,18 @@ public class AccountDetailsActivity extends AppCompatActivity {
         billsShow.add(bill);
         billsShow.add(bill);
 
+        initDisplayView();
         initRecyclerView();
         initNavigation();
+    }
+
+    private void initDisplayView() {
+        TextView textViewName = findViewById(R.id.toolbar_account_details_title);
+        EditText editTextMoney = findViewById(R.id.editView_account_money);
+        EditText editTextRemarks = findViewById(R.id.editView_account_remarks);
+        textViewName.setText(accountGet.getName());
+        editTextMoney.setText(String.valueOf(accountGet.getMoney()));
+        editTextRemarks.setText(accountGet.getRemarks());
     }
 
     private void initRecyclerView() {

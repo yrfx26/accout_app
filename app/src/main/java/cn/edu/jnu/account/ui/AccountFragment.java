@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -23,19 +24,22 @@ import java.util.List;
 
 import cn.edu.jnu.account.AccountAddActivity;
 import cn.edu.jnu.account.AccountDetailsActivity;
+import cn.edu.jnu.account.MainActivity;
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Account;
+import cn.edu.jnu.account.data.DataManager;
 
 
 public class AccountFragment extends Fragment {
-    private AccountFragment.CustomAdapter recyclerViewAdapter;
+    private CustomAdapter recyclerViewAdapter;
     private View view;
     private List<Account> accountsShow;
+    private DataManager dataManager;
 
     private final ActivityResultLauncher<Intent> accountAddLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (null != result) {
-                    
+
                 }
             }
     );
@@ -67,12 +71,12 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_account, container, false);
+        accountsShow = DataManager.getDataManager().loadAccounts(getActivity());
 
-        accountsShow = new ArrayList<>();
         Account account = new Account();
         account.setName("工商银行卡");
         account.setMoney(10000.00);
-
+        account.setRemarks("备注");
         accountsShow.add(account);
         accountsShow.add(account);
         accountsShow.add(account);
@@ -80,7 +84,6 @@ public class AccountFragment extends Fragment {
         initAddButton();
         initRecyclerView();
         recyclerViewAdapter.notifyDataSetChanged();
-
         return view;
     }
 
@@ -90,21 +93,23 @@ public class AccountFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        recyclerViewAdapter = new AccountFragment.CustomAdapter(accountsShow);
-        recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
+        recyclerViewAdapter = new CustomAdapter(accountsShow);
+        recyclerViewAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), AccountDetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("accountItem", accountsShow.get(position));
+                bundle.putInt("position", position);
+                intent.putExtras(bundle);
                 accountDetailsLaunch.launch(intent);
             }
-        });
-        recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
-            public boolean onLongClick(View v) {
-                return false;
+            public void onItemLongClick(View view, int position) {
+
             }
         });
-
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
@@ -118,74 +123,87 @@ public class AccountFragment extends Fragment {
             }
         });
     }
+}
+
+class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>  {
+    private List<Account> localDataSet;
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+        void onItemLongClick(View view,int position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewName;
+        private final TextView textViewMoney;
+        private final ConstraintLayout constraintLayout;
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+            constraintLayout = view.findViewById(R.id.constraintLayout_account_item);
+            textViewName = view.findViewById(R.id.textView_account_item_name);
+            textViewMoney = view.findViewById(R.id.textView_account_item_money);
+        }
+
+        public TextView getTextViewName() {
+            return textViewName;
+        }
+
+        public TextView getTextViewMoney() {
+            return textViewMoney;
+        }
+
+        public ConstraintLayout getConstraintLayout() {
+            return constraintLayout;
+        }
+    }
 
 
-    public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-        private View.OnClickListener onClickListener;
-        private View.OnLongClickListener onLongClickListener;
-        private List<Account> localDataSet;
+    public CustomAdapter(List<Account> dataSet) {
+        localDataSet = dataSet;
+    }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            private final TextView textViewName;
-            private final TextView textViewMoney;
-            private final ConstraintLayout constraintLayout;
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        // Create a new view, which defines the UI of the list item
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.item_account, viewGroup, false);
+        return new CustomAdapter.ViewHolder(view);
+    }
 
-            public ViewHolder(View view) {
-                super(view);
-                // Define click listener for the ViewHolder's View
-                constraintLayout = view.findViewById(R.id.constraintLayout_account_item);
-                textViewName = view.findViewById(R.id.textView_account_item_name);
-                textViewMoney = view.findViewById(R.id.textView_account_item_money);
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
+        viewHolder.getTextViewName().setText(localDataSet.get(position).getName());
+        viewHolder.getTextViewMoney().setText(String.valueOf(localDataSet.get(position).getMoney()));
+
+
+        ConstraintLayout constraintLayout = viewHolder.getConstraintLayout();
+            if (onItemClickListener!=null){
+                constraintLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.onItemClick(v, position);
+                    }
+                });
+                constraintLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        onItemClickListener.onItemLongClick(v, position);
+                        return true;
+                    }
+                });
             }
+    }
 
-            public TextView getTextViewName() {
-                return textViewName;
-            }
-
-            public TextView getTextViewMoney() {
-                return textViewMoney;
-            }
-
-            public ConstraintLayout getConstraintLayout() {
-                return constraintLayout;
-            }
-        }
-
-
-        public CustomAdapter(List<Account> dataSet) {
-            localDataSet = dataSet;
-        }
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            // Create a new view, which defines the UI of the list item
-            View view = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.item_account, viewGroup, false);
-            return new AccountFragment.CustomAdapter.ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-            viewHolder.getTextViewName().setText(localDataSet.get(position).getName());
-            System.out.println(localDataSet.get(position).getName());
-            viewHolder.getTextViewMoney().setText(String.valueOf(localDataSet.get(position).getMoney()));
-            ConstraintLayout constraintLayout = viewHolder.getConstraintLayout();
-            constraintLayout.setOnClickListener(onClickListener);
-            constraintLayout.setOnLongClickListener(onLongClickListener);
-        }
-
-        @Override
-        public int getItemCount() {
-            return localDataSet.size();
-        }
-
-        public void setOnClickListener(View.OnClickListener onClickListener) {
-            this.onClickListener = onClickListener;
-        }
-
-        public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
-            this.onLongClickListener = onLongClickListener;
-        }
+    @Override
+    public int getItemCount() {
+        return localDataSet.size();
     }
 }

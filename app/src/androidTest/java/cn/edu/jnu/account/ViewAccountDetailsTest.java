@@ -66,19 +66,19 @@ public class ViewAccountDetailsTest {
         textView.check(matches(withText("ÕË»§Ãû×Ö")));
 
         ViewInteraction editText = onView(
-                allOf(withId(R.id.editTextTextPersonName), withText("Name"),
+                allOf(withId(R.id.editView_account_money), withText("Name"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
         editText.check(matches(withText("Name")));
 
         ViewInteraction editText2 = onView(
-                allOf(withId(R.id.editTextTextPersonName5), withText("Name"),
+                allOf(withId(R.id.editView_account_remarks), withText("Name"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
         editText2.check(matches(withText("Name")));
 
         ViewInteraction editText3 = onView(
-                allOf(withId(R.id.editTextTextPersonName5), withText("Name"),
+                allOf(withId(R.id.editView_account_remarks), withText("Name"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
         editText3.check(matches(withText("Name")));
