@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import cn.edu.jnu.account.data.Account;
 import cn.edu.jnu.account.data.Bill;
+import cn.edu.jnu.account.data.DataManager;
 import cn.edu.jnu.account.ui.DetailsFragment;
 
 
@@ -31,9 +33,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private List<Bill> billsShow;
     private int positionGet;
     private Account accountGet;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +45,22 @@ public class AccountDetailsActivity extends AppCompatActivity {
         positionGet = bundle.getInt("position");
         assert accountGet != null;
 
-
-        billsShow = new ArrayList<>();
-        Bill bill = new Bill();
-        bill.setAccountName("工商银行232");
-        bill.setMoney(2000);
-        bill.setTime(new Date());
-        bill.setType("工资");
-        billsShow.add(bill);
-        billsShow.add(bill);
-        billsShow.add(bill);
-        billsShow.add(bill);
-
+        List<Bill> bills = DataManager.getDataManager().loadBills(MainActivity.getContext());
+        billsShow = DataManager.getDataManager().getBillsByAccountName(accountGet.getName(), bills);
+//        List<Account> accounts = DataManager.getDataManager().loadAccounts(MainActivity.getContext());
+//        billsShow = new ArrayList<>();
+//        Bill bill = new Bill();
+//        bill.setAccountName("工商银行");
+//        bill.setMoney(2000);
+//        bill.setTime(new Date());
+//        bill.setType("工资");
+//        billsShow.add(bill);
+//        bill.setAccountName("wra");
+//        billsShow.add(bill);
+//        billsShow.add(bill);
+//        billsShow.add(bill);
+        Log.i("data:", ""+bills.size());
+        Log.i("data:", ""+billsShow.size());
         initDisplayView();
         initRecyclerView();
         initNavigation();
@@ -83,7 +86,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(Acc.this, BookDetailsActivity.class);
-
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {

@@ -36,6 +36,7 @@ public class AccountFragment extends Fragment {
     private List<Account> accountsShow;
     private DataManager dataManager;
 
+
     private final ActivityResultLauncher<Intent> accountAddLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (null != result) {
@@ -78,6 +79,10 @@ public class AccountFragment extends Fragment {
         account.setMoney(10000.00);
         account.setRemarks("备注");
         accountsShow.add(account);
+        account = new Account();
+        account.setName("ewrer");
+        account.setMoney(10000.00);
+        account.setRemarks("备注");
         accountsShow.add(account);
         accountsShow.add(account);
 

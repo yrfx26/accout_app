@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
     AppBarConfiguration appBarConfiguration;
     private NavController navController;
     private BottomNavigationView nav_view;
+    private static Context context;
+
+    public static Context getContext() {
+        return context;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,5 +45,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(bottomNav, navController);
+        context = getApplicationContext();
     }
 }

@@ -27,6 +27,7 @@ import cn.edu.jnu.account.AccountAddActivity;
 import cn.edu.jnu.account.BillDetailsActivity;
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Bill;
+import cn.edu.jnu.account.data.DataManager;
 
 
 public class DetailsFragment extends Fragment {
@@ -91,7 +92,7 @@ public class DetailsFragment extends Fragment {
 
         billsShow = new ArrayList<>();
         Bill bill = new Bill();
-        bill.setAccountName("工商银行");
+        bill.setAccountName("工商银行卡");
         bill.setMoney(2000);
         bill.setTime(new Date());
         bill.setType("工资");
