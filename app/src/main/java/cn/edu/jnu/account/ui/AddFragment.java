@@ -21,6 +21,7 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Bill;
@@ -96,15 +97,34 @@ public class AddFragment extends Fragment {
     }
 
     private void onCLickCommit() {
-        DetailsFragment detailsFragment = new DetailsFragment();
         add_bt_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("click commit");
+
+                //从控件中获取数据
+                Bill newbill = new Bill();
+                getBillFromComponent(newbill);
+
+                //传递数据
+                Bundle result = new Bundle();
+                result.putParcelable("newbill", newbill);
+                getParentFragmentManager().setFragmentResult("newbill", result);
+
+
+                //页面跳转
                 NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
                 assert navHostFragment != null;
                 NavController navController = navHostFragment.getNavController();
                 navController.navigate(R.id.navigation_item1);
+            }
+
+            private void getBillFromComponent(Bill newbill) {
+                newbill.setDescription(add_et_description.getText().toString());
+                newbill.setType(add_spinner_type.getSelectedItem().toString());
+                newbill.setTime(new Date(add_et_time.getDrawingTime()));
+                newbill.setMoney(Double.parseDouble(add_et_money.getText().toString()));
+                newbill.setBillClass(add_spinner_billClass.getSelectedItem().toString());
+                newbill.setAccountName(add_spinner_account.getSelectedItem().toString());
             }
         });
     }

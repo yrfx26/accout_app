@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,12 +72,19 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getParentFragmentManager().setFragmentResultListener("bill", this, new FragmentResultListener() {
-            public void onFragmentResult(String key,Bundle bundle) {
+        getParentFragmentManager().setFragmentResultListener("newbill", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
                 // We use a String here, but any type that can be put in a Bundle is supported
                 Bill newbill = bundle.getParcelable("newbill");
                 // Do something with the result...
-                billsShow.add(newbill);
+                if (null != newbill){
+                    billsShow.add(newbill);
+                    recyclerViewAdapter.notifyDataSetChanged();
+                }
+                else {
+                    Log.i("newbill","Oncreate: newbill is null");
+                }
             }
         });
 
@@ -96,8 +104,6 @@ public class DetailsFragment extends Fragment {
         bill.setTime(new Date());
         bill.setType("工资");
         bill.setBillClass(Bill.INCOME_CLASS);
-        billsShow.add(bill);
-        billsShow.add(bill);
         billsShow.add(bill);
 
         initRecyclerView();

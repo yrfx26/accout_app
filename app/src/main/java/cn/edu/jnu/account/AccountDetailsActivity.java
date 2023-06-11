@@ -43,9 +43,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
         bill.setTime(new Date());
         bill.setType("工资");
         billsShow.add(bill);
-        billsShow.add(bill);
-        billsShow.add(bill);
-        billsShow.add(bill);
 
         initRecyclerView();
         initNavigation();
