@@ -9,16 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.edu.jnu.account.data.Account;
 import cn.edu.jnu.account.data.Bill;
+import cn.edu.jnu.account.data.DataManager;
 import cn.edu.jnu.account.ui.DetailsFragment;
 
 
@@ -27,26 +31,48 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private static final int RESULT_CODE_NO_CHANGE = 0;
     private DetailsFragment.CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
-
-
-
+    private int positionGet;
+    private Account accountGet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_details);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
 
-        billsShow = new ArrayList<>();
-        Bill bill = new Bill();
-        bill.setAccountName("工商银行232");
-        bill.setMoney(2000);
-        bill.setTime(new Date());
-        bill.setType("工资");
-        billsShow.add(bill);
+        accountGet = bundle.getParcelable("accountItem");
+        positionGet = bundle.getInt("position");
+        assert accountGet != null;
 
+        List<Bill> bills = DataManager.getDataManager().loadBills(MainActivity.getContext());
+        billsShow = DataManager.getDataManager().getBillsByAccountName(accountGet.getName(), bills);
+//        List<Account> accounts = DataManager.getDataManager().loadAccounts(MainActivity.getContext());
+//        billsShow = new ArrayList<>();
+//        Bill bill = new Bill();
+//        bill.setAccountName("工商银行");
+//        bill.setMoney(2000);
+//        bill.setTime(new Date());
+//        bill.setType("工资");
+//        billsShow.add(bill);
+//        bill.setAccountName("wra");
+//        billsShow.add(bill);
+//        billsShow.add(bill);
+//        billsShow.add(bill);
+        Log.i("data:", ""+bills.size());
+        Log.i("data:", ""+billsShow.size());
+        initDisplayView();
         initRecyclerView();
         initNavigation();
+    }
 
+    private void initDisplayView() {
+        TextView textViewName = findViewById(R.id.toolbar_account_details_title);
+        EditText editTextMoney = findViewById(R.id.editView_account_money);
+        EditText editTextRemarks = findViewById(R.id.editView_account_remarks);
+        textViewName.setText(accountGet.getName());
+        editTextMoney.setText(String.valueOf(accountGet.getMoney()));
+        editTextRemarks.setText(accountGet.getRemarks());
     }
 
     private void initRecyclerView() {
@@ -60,7 +86,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                Intent intent = new Intent(Acc.this, BookDetailsActivity.class);
-
             }
         });
         recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {

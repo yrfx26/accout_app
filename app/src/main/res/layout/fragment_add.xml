@@ -131,7 +131,6 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/ic_description"
                 app:layout_constraintStart_toStartOf="@+id/add_img_time"
                 app:layout_constraintTop_toBottomOf="@+id/add_tv_time" />
 

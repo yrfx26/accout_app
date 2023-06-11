@@ -54,7 +54,7 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editView_account_money"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:ems="10"
@@ -65,14 +65,14 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/editView_account_remarks"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editView_account_money"
+        app:layout_constraintTop_toBottomOf="@+id/editView_account_money"
         tools:ignore="MissingConstraints" />
 
     <View
