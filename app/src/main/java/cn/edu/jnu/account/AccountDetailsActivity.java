@@ -1,7 +1,5 @@
 package cn.edu.jnu.account;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,12 +43,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
         bill.setTime(new Date());
         bill.setType("工资");
         billsShow.add(bill);
-        billsShow.add(bill);
-        billsShow.add(bill);
-        billsShow.add(bill);
 
         initRecyclerView();
         initNavigation();
+
     }
 
     private void initRecyclerView() {
