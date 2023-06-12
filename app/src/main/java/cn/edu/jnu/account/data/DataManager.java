@@ -17,10 +17,12 @@ import java.util.List;
 public class DataManager {
     private List<Bill> bills;
     private List<Account> accounts;
+    private List<String> billTypes;
     static private DataManager dataManager;
 
     static public final String ACCOUNT_FILE = "accounts.dat";
     static public final String BILL_FILE = "bills.dat";
+    static public final String BILL_TYPE_FILE = "billTypes.dat";
 
     private DataManager() {
     }
@@ -96,10 +98,14 @@ public class DataManager {
     @NonNull
     public List<Account> loadAccounts(Context context) {
         List<Account> data = new ArrayList<>();
+        if (this.accounts != null) {
+            return this.accounts;
+        }
         try {
             FileInputStream fileIn = context.openFileInput(ACCOUNT_FILE);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             data = (ArrayList<Account>)in.readObject();
+            this.accounts = data;
             in.close();
             fileIn.close();
         } catch (Exception e) {
@@ -123,15 +129,55 @@ public class DataManager {
     @NonNull
     public List<Bill> loadBills(Context context) {
         List<Bill> data = new ArrayList<>();
+        if (this.bills != null) {
+            return this.bills;
+        }
         try {
             FileInputStream fileIn = context.openFileInput(BILL_FILE);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             data = (ArrayList<Bill>)in.readObject();
+            this.bills = data;
             in.close();
             fileIn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return data;
+    }
+
+    public String getTotalAccountMoney() {
+        if (this.accounts == null) {
+            return "";
+        }
+        else {
+            double total_money = 0;
+            for (Account account : this.accounts) {
+                total_money += account.getMoney();
+            }
+            return String.valueOf(total_money);
+        }
+    }
+
+    public String getTotalAccountMoney(List<Account> accounts) {
+        if (this.accounts == null) {
+            return "";
+        }
+        else {
+            double total_money = 0;
+            for (Account account : accounts) {
+                total_money += account.getMoney();
+            }
+            return String.valueOf(total_money);
+        }
+    }
+
+    public String getIncome(List<Bill> bills) {
+        double total_money = 0.0;
+        for (Bill bill:bills) {
+            if (bill.getBillClass().equals(Bill.INCOME_CLASS)) {
+                total_money += bill.getMoney();
+            }
+        }
+        return String.valueOf(total_money);
     }
 }

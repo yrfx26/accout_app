@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,25 +90,42 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_account, container, false);
-        accountsShow = DataManager.getDataManager().loadAccounts(getActivity());
+        dataManager = DataManager.getDataManager();
+        accountsShow = dataManager.loadAccounts(getActivity());
 
-        Account account = new Account();
-        account.setName("工商银行卡");
-        account.setMoney(10000.00);
-        account.setRemarks("备注");
-        accountsShow.add(account);
-        account = new Account();
-        account.setName("ewrer");
-        account.setMoney(10000.00);
-        account.setRemarks("备注");
-        accountsShow.add(account);
-        accountsShow.add(account);
+//        Account account = new Account();
+//        account.setName("工商银行卡");
+//        account.setMoney(10000.00);
+//        account.setRemarks("备注");
+//        accountsShow.add(account);
+//        account = new Account();
+//        account.setName("ewrer");
+//        account.setMoney(20000.00);
+//        account.setRemarks("备注");
+//        accountsShow.add(account);
+//        accountsShow.add(account);
+        dataManager.saveAccounts(getActivity(), accountsShow);
 
-        initAddButton();
-        initRecyclerView();
-        recyclerViewAdapter.notifyDataSetChanged();
+        init();
         return view;
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void init() {
+        initAddButton();
+        initRecyclerView();
+
+        updateTextView();
+        recyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    private void updateTextView() {
+        TextView textView = view.findViewById(R.id.textView_account_total_money);
+        String total_money = dataManager.getTotalAccountMoney();
+        textView.setText(total_money);
+        Log.i("set data", total_money);
+    }
+
 
     private void initRecyclerView() {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_fg_account);
