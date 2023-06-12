@@ -38,7 +38,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView_details_expend"
                 android:layout_width="97dp"
                 android:layout_height="34dp"
                 android:text="2003.00"
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="支出"
-                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_details_expend"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.742"
                 app:layout_constraintStart_toStartOf="parent"

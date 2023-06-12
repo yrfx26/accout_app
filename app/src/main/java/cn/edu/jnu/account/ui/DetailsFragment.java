@@ -108,9 +108,17 @@ public class DetailsFragment extends Fragment {
         bill.setType("工资");
         bill.setBillClass(Bill.INCOME_CLASS);
         billsShow.add(bill);
+        bill = new Bill();
+        bill.setAccountName("工商银行卡");
+        bill.setMoney(-2500);
+        bill.setTime(new Date());
+        bill.setType("吃");
+        bill.setBillClass(Bill.EXPEND_CLASS);
+        billsShow.add(bill);
+        billsShow.add(bill);
+        dataManager.saveBills(getActivity(), billsShow);
 
         init();
-
         return view;
     }
 
@@ -122,11 +130,14 @@ public class DetailsFragment extends Fragment {
 
     private void updateTextView() {
         TextView textViewIncome = view.findViewById(R.id.textView_details_income);
+        TextView textViewExpend = view.findViewById(R.id.textView_details_expend);
 
         String income = dataManager.getIncome(billsShow);
+        String expend = dataManager.getExpend(billsShow);
         textViewIncome.setText(income);
-
+        textViewExpend.setText(expend);
         Log.i("视图更新", "收入="+income);
+        Log.i("视图更新", "支出="+expend);
     }
 
     // 初始化recycleView ----------------------------------------------------------------------------

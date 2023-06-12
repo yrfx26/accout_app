@@ -180,4 +180,14 @@ public class DataManager {
         }
         return String.valueOf(total_money);
     }
+
+    public String getExpend(List<Bill> bills) {
+        double total_money = 0.0;
+        for (Bill bill:bills) {
+            if (bill.getBillClass().equals(Bill.EXPEND_CLASS)) {
+                total_money += bill.getMoney();
+            }
+        }
+        return String.valueOf(total_money);
+    }
 }
