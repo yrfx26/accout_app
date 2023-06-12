@@ -47,6 +47,8 @@ public class DataManager {
 
     }
 
+
+
     public List<Bill> getAllBills() {
         return null;
     }
@@ -77,6 +79,21 @@ public class DataManager {
 
     public void deleteAccount(int accountId) {
 
+    }
+
+    public void deleteAccount(Context context, Account account) {
+        String accountName = account.getName();
+        if (this.bills == null) {
+            loadBills(context);
+        }
+        for (Bill bill:this.bills) {
+            if (bill.getAccountName().equals(accountName)) {
+                bill.setAccountName("");
+            }
+        }
+        this.accounts.remove(account);
+        saveBills(context, this.bills);
+        saveAccounts(context, this.accounts);
     }
 
     public List<Account> getAllAccounts() {

@@ -1,12 +1,14 @@
 package cn.edu.jnu.account.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,11 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +38,12 @@ import cn.edu.jnu.account.data.DataManager;
 
 
 public class AccountFragment extends Fragment {
+    private static final int MENU_ID_DELETE = 0;
     private CustomAdapter recyclerViewAdapter;
     private View view;
     private List<Account> accountsShow;
     private DataManager dataManager;
+    private PopupMenu.OnMenuItemClickListener onMenuItemClickListener;
 
 
     public CustomAdapter getRecyclerViewAdapter() {
@@ -58,6 +66,7 @@ public class AccountFragment extends Fragment {
                         Account account = bundle.getParcelable("账户");
                         accountsShow.add(account);
                         recyclerViewAdapter.notifyItemInserted(accountsShow.size());
+                        updateTextView();
                     }
                 }
             }
@@ -71,12 +80,6 @@ public class AccountFragment extends Fragment {
             }
     );
 
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,11 +107,12 @@ public class AccountFragment extends Fragment {
 //        account.setRemarks("备注");
 //        accountsShow.add(account);
 //        accountsShow.add(account);
-        dataManager.saveAccounts(getActivity(), accountsShow);
+//        dataManager.saveAccounts(getActivity(), accountsShow);
 
         init();
         return view;
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     private void init() {
@@ -119,6 +123,7 @@ public class AccountFragment extends Fragment {
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
+    // 更新显示的textView：全部账户加起来的总金额
     private void updateTextView() {
         TextView textView = view.findViewById(R.id.textView_account_total_money);
         String total_money = dataManager.getTotalAccountMoney();
@@ -127,6 +132,7 @@ public class AccountFragment extends Fragment {
     }
 
 
+    // 初始化recycleView
     private void initRecyclerView() {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_fg_account);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
@@ -134,6 +140,7 @@ public class AccountFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         recyclerViewAdapter = new CustomAdapter(accountsShow);
+
         recyclerViewAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -147,12 +154,30 @@ public class AccountFragment extends Fragment {
 
             @Override
             public void onItemLongClick(View view, int position) {
-
+                PopupMenu popupMenu = new PopupMenu(getContext(), view);
+                MenuInflater inflater = popupMenu.getMenuInflater();
+                inflater.inflate(R.menu.account, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NonConstantResourceId")
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu_account_item_delete:
+                                Toast.makeText(getContext(), "删除账户:"+accountsShow.get(position).getName(), Toast.LENGTH_SHORT).show();
+                                dataManager.deleteAccount(getActivity(), accountsShow.get(position));
+                                recyclerViewAdapter.notifyItemRemoved(position);
+                                updateTextView();
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
             }
         });
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
+    // 初始化添加账户按钮
     private void initAddButton() {
         Button addButton = view.findViewById(R.id.button_add_account);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +191,7 @@ public class AccountFragment extends Fragment {
 }
 
 class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>  {
-    private List<Account> localDataSet;
+    private final List<Account> localDataSet;
     private OnItemClickListener onItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -202,6 +227,8 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>  {
         public ConstraintLayout getConstraintLayout() {
             return constraintLayout;
         }
+
+
     }
 
 
