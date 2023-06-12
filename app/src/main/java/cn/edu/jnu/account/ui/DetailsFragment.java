@@ -35,6 +35,7 @@ public class DetailsFragment extends Fragment {
     private View view;
     private CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
+    private DataManager dataManager;
 
     private final ActivityResultLauncher<Intent> billDetailsLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -88,7 +89,6 @@ public class DetailsFragment extends Fragment {
                 }
             }
         });
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -97,6 +97,8 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_details, container, false);
+        dataManager = DataManager.getDataManager();
+        billsShow = dataManager.loadBills(getActivity());
 
         billsShow = new ArrayList<>();
         Bill bill = new Bill();
@@ -107,14 +109,24 @@ public class DetailsFragment extends Fragment {
         bill.setBillClass(Bill.INCOME_CLASS);
         billsShow.add(bill);
 
-        initRecyclerView();
-        recyclerViewAdapter.notifyDataSetChanged();
+        init();
 
         return view;
     }
 
     public void init() {
         initRecyclerView();
+
+        updateTextView();
+    }
+
+    private void updateTextView() {
+        TextView textViewIncome = view.findViewById(R.id.textView_details_income);
+
+        String income = dataManager.getIncome(billsShow);
+        textViewIncome.setText(income);
+
+        Log.i("视图更新", "收入="+income);
     }
 
     // 初始化recycleView ----------------------------------------------------------------------------
