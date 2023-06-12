@@ -37,10 +37,27 @@ public class AccountFragment extends Fragment {
     private DataManager dataManager;
 
 
+    public CustomAdapter getRecyclerViewAdapter() {
+        return recyclerViewAdapter;
+    }
+
+
+    public List<Account> getAccountsShow() {
+        return accountsShow;
+    }
+
+
     private final ActivityResultLauncher<Intent> accountAddLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (null != result) {
-
+                    if (result.getResultCode() == AccountAddActivity.RESULT_CODE_ADD) {
+                        Intent intent = result.getData();
+                        assert intent != null;
+                        Bundle bundle = intent.getExtras();
+                        Account account = bundle.getParcelable("账户");
+                        accountsShow.add(account);
+                        recyclerViewAdapter.notifyItemInserted(accountsShow.size());
+                    }
                 }
             }
     );

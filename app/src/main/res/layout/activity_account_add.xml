@@ -24,7 +24,7 @@
 <!--        app:titleCentered="true" />-->
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/editView_account_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -33,7 +33,7 @@
         android:inputType="textPersonName"
         android:text="Name"
         app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/editView_account_remarks" />
 
     <TextView
         android:id="@+id/textView14"
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/editView_account_remarks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -57,7 +57,7 @@
         android:hint="（选填）"
         android:minHeight="48dp"
         app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/editView_account_name" />
 
     <TextView
         android:id="@+id/textView13"
@@ -90,7 +90,7 @@
         app:layout_constraintVertical_bias="0.027" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/editView_account_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"

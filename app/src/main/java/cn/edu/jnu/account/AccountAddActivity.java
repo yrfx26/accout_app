@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import cn.edu.jnu.account.data.Account;
 
 public class AccountAddActivity extends AppCompatActivity {
 
@@ -46,10 +49,25 @@ public class AccountAddActivity extends AppCompatActivity {
         Intent intent = new Intent();
         if (isAdd) {
             Bundle bundle = new Bundle();
+            Account account = getAccount();
+            bundle.putParcelable("账户", account);
+            intent.putExtras(bundle);
             setResult(RESULT_CODE_ADD, intent);
         }
         else
             setResult(RESULT_CODE_NO_ADD);
         AccountAddActivity.this.finish();
+    }
+
+    private Account getAccount() {
+        String name = ((EditText)findViewById(R.id.editView_account_name)).getText().toString();
+        String remarks = ((EditText)findViewById(R.id.editView_account_remarks)).getText().toString();
+        String  money = ((EditText)findViewById(R.id.editView_account_money)).getText().toString();
+        Account account = new Account();
+        account.setName(name);
+        account.setRemarks(remarks);
+        account.setMoney(Double.valueOf(money));
+
+        return account;
     }
 }

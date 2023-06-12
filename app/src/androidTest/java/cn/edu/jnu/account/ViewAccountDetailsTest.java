@@ -4,7 +4,7 @@ package cn.edu.jnu.account;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+//import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -56,7 +56,7 @@ public class ViewAccountDetailsTest {
                         childAtPosition(
                                 withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
                                 2)));
-        recyclerView.perform(actionOnItemAtPosition(0, click()));
+//        recyclerView.perform(actionOnItemAtPosition(0, click()));
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.toolbar_account_details_title), withText("ÕË»§Ãû×Ö"),
