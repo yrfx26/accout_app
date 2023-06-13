@@ -16,23 +16,21 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.edu.jnu.account.data.Account;
 import cn.edu.jnu.account.data.Bill;
 import cn.edu.jnu.account.data.DataManager;
-import cn.edu.jnu.account.ui.DetailsFragment;
 
 
 public class AccountDetailsActivity extends AppCompatActivity {
     private static final int RESULT_CODE_CHANGE = 1;
     private static final int RESULT_CODE_NO_CHANGE = 0;
-    private DetailsFragment.CustomAdapter recyclerViewAdapter;
+    private CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
     private int positionGet;
     private Account accountGet;
+    private DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +43,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
         positionGet = bundle.getInt("position");
         assert accountGet != null;
 
-        List<Bill> bills = DataManager.getDataManager().loadBills(MainActivity.getContext());
-        billsShow = DataManager.getDataManager().getBillsByAccountName(accountGet.getName(), bills);
+        dataManager = DataManager.getDataManager();
+        List<Bill> bills = dataManager.loadBills(MainActivity.getContext());
+        billsShow = dataManager.getBillsByAccountName(accountGet.getName(), bills);
 //        List<Account> accounts = DataManager.getDataManager().loadAccounts(MainActivity.getContext());
 //        billsShow = new ArrayList<>();
 //        Bill bill = new Bill();
@@ -59,6 +58,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 //        billsShow.add(bill);
 //        billsShow.add(bill);
 //        billsShow.add(bill);
+
         Log.i("data:", ""+bills.size());
         Log.i("data:", ""+billsShow.size());
         initDisplayView();
@@ -81,7 +81,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        recyclerViewAdapter = new DetailsFragment.CustomAdapter(billsShow);
+        recyclerViewAdapter = new CustomAdapter(billsShow);
         recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +120,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         AccountDetailsActivity.this.finish();
     }
 
-    public static class CustomAdapter extends RecyclerView.Adapter<AccountDetailsActivity.CustomAdapter.ViewHolder> {
+    public class CustomAdapter extends RecyclerView.Adapter<AccountDetailsActivity.CustomAdapter.ViewHolder> {
         private View.OnClickListener onClickListener;
         private View.OnLongClickListener onLongClickListener;
         private final List<Bill> localDataSet;
@@ -134,10 +134,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
             public ViewHolder(View view) {
                 super(view);
                 // Define click listener for the ViewHolder's View
-                textViewType = view.findViewById(R.id.textView_type);
-                textViewMoney = view.findViewById(R.id.textView_money);
-                textViewDate = view.findViewById(R.id.textView_date);
-                constraintLayout = view.findViewById(R.id.recyclerView_fg_account_);
+                textViewType = view.findViewById(R.id.textView_account_type);
+                textViewMoney = view.findViewById(R.id.textView_account_money);
+                textViewDate = view.findViewById(R.id.textView_account_date);
+                constraintLayout = view.findViewById(R.id.recyclerView_at_account_bills);
             }
 
             public TextView getTextViewType() {

@@ -16,9 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,11 +35,18 @@ import cn.edu.jnu.account.data.Bill;
 import cn.edu.jnu.account.data.DataManager;
 
 
-public class DetailsFragment extends Fragment {
+interface OnItemClickListener {
+    void onItemClick(View view, int position);
+    boolean onItemLongClick(View view,int position);
+}
+
+
+public class DetailsFragment extends Fragment implements OnItemClickListener{
     private View view;
     private CustomAdapter recyclerViewAdapter;
     private List<Bill> billsShow;
     private DataManager dataManager;
+
 
     private final ActivityResultLauncher<Intent> billDetailsLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -100,23 +111,23 @@ public class DetailsFragment extends Fragment {
         dataManager = DataManager.getDataManager();
         billsShow = dataManager.loadBills(getActivity());
 
-        billsShow = new ArrayList<>();
-        Bill bill = new Bill();
-        bill.setAccountName("工商银行卡");
-        bill.setMoney(2000);
-        bill.setTime(new Date());
-        bill.setType("工资");
-        bill.setBillClass(Bill.INCOME_CLASS);
-        billsShow.add(bill);
-        bill = new Bill();
-        bill.setAccountName("工商银行卡");
-        bill.setMoney(-2500);
-        bill.setTime(new Date());
-        bill.setType("吃");
-        bill.setBillClass(Bill.EXPEND_CLASS);
-        billsShow.add(bill);
-        billsShow.add(bill);
-        dataManager.saveBills(getActivity(), billsShow);
+//        billsShow = new ArrayList<>();
+//        Bill bill = new Bill();
+//        bill.setAccountName("工商银行卡");
+//        bill.setMoney(2000);
+//        bill.setTime(new Date());
+//        bill.setType("工资");
+//        bill.setBillClass(Bill.INCOME_CLASS);
+//        billsShow.add(bill);
+//        bill = new Bill();
+//        bill.setAccountName("工商银行卡");
+//        bill.setMoney(-2500);
+//        bill.setTime(new Date());
+//        bill.setType("吃");
+//        bill.setBillClass(Bill.EXPEND_CLASS);
+//        billsShow.add(bill);
+//        billsShow.add(bill);
+//        dataManager.saveBills(getActivity(), billsShow);
 
         init();
         return view;
@@ -128,6 +139,7 @@ public class DetailsFragment extends Fragment {
         updateTextView();
     }
 
+    // 更新界面数据 ----------------------------------------------------------------------------------
     private void updateTextView() {
         TextView textViewIncome = view.findViewById(R.id.textView_details_income);
         TextView textViewExpend = view.findViewById(R.id.textView_details_expend);
@@ -140,6 +152,37 @@ public class DetailsFragment extends Fragment {
         Log.i("视图更新", "支出="+expend);
     }
 
+    // recycleView的item点击事件----------------------------------------------------------------------
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(getActivity(), BillDetailsActivity.class);
+        billDetailsLaunch.launch(intent);
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, int position) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.account, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @SuppressLint({"NonConstantResourceId", "NotifyDataSetChanged"})
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_account_item_delete:
+                        dataManager.deleteBill(getActivity(), billsShow.get(position), billsShow);
+                        recyclerViewAdapter.notifyDataSetChanged();
+                        updateTextView();
+                        Toast.makeText(getContext(), "删除账单成功", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+
+        return true;
+    }
+
     // 初始化recycleView ----------------------------------------------------------------------------
     @SuppressLint("NotifyDataSetChanged")
     private void initRecyclerView() {
@@ -149,26 +192,12 @@ public class DetailsFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         recyclerViewAdapter = new CustomAdapter(billsShow);
-        recyclerViewAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BillDetailsActivity.class);
-                billDetailsLaunch.launch(intent);
-            }
-        });
-        recyclerViewAdapter.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
-
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-        private View.OnClickListener onClickListener;
-        private View.OnLongClickListener onLongClickListener;
+
+    public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+
         private List<Bill> localDataSet;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
@@ -225,31 +254,30 @@ public class DetailsFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
             viewHolder.getTextViewType().setText(String.valueOf(localDataSet.get(position).getType()));
             viewHolder.getTextViewAccount().setText(localDataSet.get(position).getAccountName());
             viewHolder.getTextViewMoney().setText(String.valueOf(localDataSet.get(position).getMoney()));
             viewHolder.getTextViewDate().setText(localDataSet.get(position).getTime());
 
             ConstraintLayout constraintLayout = viewHolder.getConstraintLayout();
-            constraintLayout.setOnClickListener(onClickListener);
-            constraintLayout.setOnLongClickListener(onLongClickListener);
+            constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DetailsFragment.this.onItemClick(v, position);
+                }
+            });
+            constraintLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return DetailsFragment.this.onItemLongClick(v, position);
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
             return localDataSet.size();
         }
-
-        public void setOnClickListener(View.OnClickListener onClickListener) {
-            this.onClickListener = onClickListener;
-        }
-
-        public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
-            this.onLongClickListener = onLongClickListener;
-        }
     }
-
-
-
 }

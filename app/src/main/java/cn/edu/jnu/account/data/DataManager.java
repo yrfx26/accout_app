@@ -47,6 +47,14 @@ public class DataManager {
 
     }
 
+    public void deleteBill(Context context, Bill bill, List<Bill> billsShow) {
+        if (this.bills == null) {
+            this.bills = loadBills(context);
+        }
+        this.bills.remove(bill);
+        billsShow.remove(bill);
+        saveBills(context, this.bills);
+    }
 
 
     public List<Bill> getAllBills() {
