@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DataManager {
@@ -27,9 +28,32 @@ public class DataManager {
     private DataManager() {
     }
 
+    public List<String> getAccountNames() {
+        List<String> strli = new ArrayList<>();
+        Iterator<Account> iterator = accounts.iterator();
+        while(iterator.hasNext()){
+            strli.add(iterator.next().getName());
+        }
+        if (0 == strli.size()){
+            initAccountList(strli);
+        }
+        return strli;
+    }
+
+    private void initAccountList(List<String> strli) {
+        strli.add("账户1");
+        strli.add("账户2");
+        strli.add("账户3");
+        strli.add("账户4");
+    }
+
     static public DataManager getDataManager() {
-        if (dataManager == null) {
-            dataManager = new DataManager();
+        if (null == dataManager) {
+            synchronized (DataManager.class) {
+                if (dataManager == null) {
+                    dataManager = new DataManager();
+                }
+            }
         }
         return dataManager;
     }
@@ -48,11 +72,15 @@ public class DataManager {
     }
 
     public void deleteBill(Context context, Bill bill, List<Bill> billsShow) {
-        if (this.bills == null) {
-            this.bills = loadBills(context);
+        if (null != this.bills) {
+            synchronized (DataManager.class) {
+                if (this.bills == null) {
+                    this.bills = loadBills(context);
+                }
+                this.bills.remove(bill);
+                billsShow.remove(bill);
+            }
         }
-        this.bills.remove(bill);
-        billsShow.remove(bill);
         saveBills(context, this.bills);
     }
 
@@ -162,6 +190,37 @@ public class DataManager {
             ObjectInputStream in = new ObjectInputStream(fileIn);
             data = (ArrayList<Bill>)in.readObject();
             this.bills = data;
+            in.close();
+            fileIn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public void saveBilltypes(Context context, List<String> billtypes) {
+        try {
+            FileOutputStream fileOut = context.openFileOutput(BILL_TYPE_FILE, Context.MODE_PRIVATE);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(billtypes);
+            out.close();
+            fileOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @NonNull
+    public List<String> loadBilltypes(Context context) {
+        List<String> data = new ArrayList<>();
+        if (this.billTypes != null) {
+            return this.billTypes;
+        }
+        try {
+            FileInputStream fileIn = context.openFileInput(BILL_TYPE_FILE);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            data = (ArrayList<String>)in.readObject();
+            this.billTypes = data;
             in.close();
             fileIn.close();
         } catch (Exception e) {

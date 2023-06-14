@@ -22,9 +22,11 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Bill;
+import cn.edu.jnu.account.data.DataManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +43,7 @@ public class AddFragment extends Fragment {
     private Button add_bt_commit;
     private Bill bill;
     private EditText add_et_description;
-    private ArrayList<String> accountNames = new ArrayList<>();
+    private List<String> accountNames;
     private ArrayList<String> typeNames = new ArrayList<>();
 
     public AddFragment() {
@@ -90,7 +92,10 @@ public class AddFragment extends Fragment {
         bandComponent();
 
         //初始化账户
-        initAccount(accountNames, "账户1", "添加账户");
+        if (DataManager.getDataManager().getAccountNames().isEmpty()){
+            DataManager.getDataManager().getAccountNames();
+        }
+        initAccount(DataManager.getDataManager().getAccountNames());
 
         //初始化账户消费类型
         initType();
@@ -143,7 +148,6 @@ public class AddFragment extends Fragment {
         typeNames.add("喝");
         typeNames.add("玩");
         typeNames.add("乐");
-        typeNames.add("添加类型");
 
         add_spinner_type = view.findViewById(R.id.add_spinner_type);
         ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(
@@ -152,9 +156,7 @@ public class AddFragment extends Fragment {
         add_spinner_type.setAdapter(arrayAdapterType);
     }
 
-    private void initAccount(ArrayList<String> accountNames, String account, String addAccount) {
-        accountNames.add(account);
-        accountNames.add(addAccount);
+    private void initAccount(List<String> accountNames) {
         add_spinner_account = view.findViewById(R.id.add_spinner_account);
         ArrayAdapter<String> arrayAdapterLabel = new ArrayAdapter<String>(
                 getContext(), R.layout.item_spinner, accountNames);
