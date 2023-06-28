@@ -26,9 +26,10 @@ public class DataManager {
     static public final String BILL_TYPE_FILE = "billTypes.dat";
 
     private DataManager() {
+
     }
 
-    public List<String> getAccountNames() {
+    public List<String> getAccountNames(List<Account> accounts) {
         List<String> strli = new ArrayList<>();
         Iterator<Account> iterator = accounts.iterator();
         while(iterator.hasNext()){

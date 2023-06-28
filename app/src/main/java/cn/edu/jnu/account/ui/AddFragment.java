@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.edu.jnu.account.R;
+import cn.edu.jnu.account.data.Account;
 import cn.edu.jnu.account.data.Bill;
 import cn.edu.jnu.account.data.DataManager;
 
@@ -91,11 +92,12 @@ public class AddFragment extends Fragment {
         //给五个个用户输入框绑定控件
         bandComponent();
 
+        List<Account> accounts = DataManager.getDataManager().loadAccounts(getActivity());
+
         //初始化账户
-        if (DataManager.getDataManager().getAccountNames().isEmpty()){
-            DataManager.getDataManager().getAccountNames();
-        }
-        initAccount(DataManager.getDataManager().getAccountNames());
+        List<String> accountNames = DataManager.getDataManager().getAccountNames(accounts);
+
+        initAccount(accountNames);
 
         //初始化账户消费类型
         initType();
