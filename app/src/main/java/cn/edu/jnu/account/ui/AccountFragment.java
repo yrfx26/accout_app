@@ -34,6 +34,7 @@ import cn.edu.jnu.account.AccountDetailsActivity;
 import cn.edu.jnu.account.MainActivity;
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Account;
+import cn.edu.jnu.account.data.Bill;
 import cn.edu.jnu.account.data.DataManager;
 
 
@@ -93,6 +94,7 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_account, container, false);
+
         dataManager = DataManager.getDataManager();
         accountsShow = dataManager.loadAccounts(getActivity());
 
@@ -164,7 +166,8 @@ public class AccountFragment extends Fragment {
                         switch (item.getItemId()) {
                             case R.id.menu_account_item_delete:
                                 Toast.makeText(getContext(), "删除账户:"+accountsShow.get(position).getName(), Toast.LENGTH_SHORT).show();
-                                dataManager.deleteAccount(getActivity(), accountsShow.get(position));
+                                List<Bill> bills = dataManager.loadBills(getContext());
+                                dataManager.deleteAccount(getActivity(), accountsShow.get(position), bills);
                                 recyclerViewAdapter.notifyItemRemoved(position);
                                 updateTextView();
                         }

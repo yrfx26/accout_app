@@ -49,6 +49,7 @@ public class DataManager {
             synchronized (DataManager.class) {
                 if (dataManager == null) {
                     dataManager = new DataManager();
+
                 }
             }
         }
@@ -114,18 +115,19 @@ public class DataManager {
 
     }
 
-    public void deleteAccount(Context context, Account account) {
+    public void deleteAccount(Context context, Account account, List<Bill> bills) {
         String accountName = account.getName();
         if (this.bills == null) {
             loadBills(context);
         }
-        for (Bill bill:this.bills) {
+
+        for (Bill bill: bills) {
             if (bill.getAccountName().equals(accountName)) {
                 bill.setAccountName("");
             }
         }
         this.accounts.remove(account);
-        saveBills(context, this.bills);
+        saveBills(context, bills);
         saveAccounts(context, this.accounts);
     }
 
@@ -161,6 +163,7 @@ public class DataManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return data;
     }
 
@@ -192,6 +195,7 @@ public class DataManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return data;
     }
 
