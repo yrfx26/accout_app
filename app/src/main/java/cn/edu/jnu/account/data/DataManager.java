@@ -35,17 +35,13 @@ public class DataManager {
         while(iterator.hasNext()){
             strli.add(iterator.next().getName());
         }
-        if (0 == strli.size()){
-            initAccountList(strli);
-        }
+        initAccountList(strli);
         return strli;
     }
 
     private void initAccountList(List<String> strli) {
-        strli.add("账户1");
-        strli.add("账户2");
-        strli.add("账户3");
-        strli.add("账户4");
+        strli.add(0, "默认账户");
+        strli.add("添加账户");
     }
 
     static public DataManager getDataManager() {
@@ -274,5 +270,16 @@ public class DataManager {
             }
         }
         return String.valueOf(total_money);
+    }
+
+    public static boolean duplicate(List<Account> accounts,Account account){
+        if(null == accounts)
+            return false;
+        for (Account acc:
+             accounts) {
+            if (acc.getName().equals(account.getName()))
+                return true;
+        }
+        return false;
     }
 }

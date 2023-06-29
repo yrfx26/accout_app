@@ -1,18 +1,19 @@
 package cn.edu.jnu.account.ui;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cn.edu.jnu.account.AccountAddActivity;
 import cn.edu.jnu.account.R;
 import cn.edu.jnu.account.data.Account;
 import cn.edu.jnu.account.data.Bill;
@@ -46,6 +48,32 @@ public class AddFragment extends Fragment {
     private EditText add_et_description;
     private List<String> accountNames;
     private ArrayList<String> typeNames = new ArrayList<>();
+
+    private DataManager dataManager = DataManager.getDataManager();
+
+
+    private final ActivityResultLauncher<Intent> accountAddLaunch = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (null != result) {
+                    if (result.getResultCode() == AccountAddActivity.RESULT_CODE_ADD) {
+                        Intent intent = result.getData();
+                        assert intent != null;
+                        Bundle bundle = intent.getExtras();
+                        Account account = bundle.getParcelable("账户");
+                        List<Account> accounts = dataManager.loadAccounts(getActivity());
+                        if (null != accounts && null != account && !DataManager.duplicate(accounts,account)) {
+                            accountNames.add(accountNames.size()-1, account.getName());
+                            add_spinner_account.setSelection(accountNames.size()-2);
+                            accounts.add(account);
+                        }
+
+                        dataManager.saveAccounts(getActivity(),accounts);
+
+                    }
+                }
+            }
+    );
+    private ArrayAdapter<String> arrayAdapterLabel;
 
     public AddFragment() {
         // Required empty public constructor
@@ -85,8 +113,33 @@ public class AddFragment extends Fragment {
         onClickTime();
 
         //点击确认页面跳转到明细
-        onCLickCommit();
+        onClickCommit();
+
+        //点击添加账户
+        onClickAddAccount();
     }
+
+    private void onClickAddAccount() {
+        add_spinner_account.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("postion: " + position + "\tid: " + id);
+                if (position == accountNames.size() - 1){
+                    parent.setSelection(0);
+                    Intent intent = new Intent(getActivity(), AccountAddActivity.class);
+                    intent.putExtra("Add","AddFragment");
+
+                    accountAddLaunch.launch(intent);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
 
     private void init() {
         //给五个个用户输入框绑定控件
@@ -95,7 +148,7 @@ public class AddFragment extends Fragment {
         List<Account> accounts = DataManager.getDataManager().loadAccounts(getActivity());
 
         //初始化账户
-        List<String> accountNames = DataManager.getDataManager().getAccountNames(accounts);
+        accountNames = DataManager.getDataManager().getAccountNames(accounts);
 
         initAccount(accountNames);
 
@@ -103,7 +156,7 @@ public class AddFragment extends Fragment {
         initType();
     }
 
-    private void onCLickCommit() {
+    private void onClickCommit() {
         add_bt_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +213,7 @@ public class AddFragment extends Fragment {
 
     private void initAccount(List<String> accountNames) {
         add_spinner_account = view.findViewById(R.id.add_spinner_account);
-        ArrayAdapter<String> arrayAdapterLabel = new ArrayAdapter<String>(
+        arrayAdapterLabel = new ArrayAdapter<String>(
                 getContext(), R.layout.item_spinner, accountNames);
         arrayAdapterLabel.setDropDownViewResource(R.layout.item_spinner_drow_down);
         add_spinner_account.setAdapter(arrayAdapterLabel);
