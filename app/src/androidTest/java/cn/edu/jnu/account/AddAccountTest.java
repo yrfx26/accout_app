@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.jnu.account.data.Account;
+import cn.edu.jnu.account.data.Bill;
 import cn.edu.jnu.account.data.DataManager;
 
 @LargeTest
@@ -60,9 +61,11 @@ public class AddAccountTest {
 
     @After
     public void teardown() {
+        List<Bill> bills = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
         DataManager dataManager = DataManager.getDataManager();
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager.saveBills(context, bills);
         dataManager.saveAccounts(context, accounts);
     }
 

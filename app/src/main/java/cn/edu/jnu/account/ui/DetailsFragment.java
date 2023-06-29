@@ -97,6 +97,7 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
                 // Do something with the result...
                 if (null != newbill){
                     billsShow.add(newbill);
+                    Log.i("data", "onFragmentResult: " + newbill);
                     Log.i("data", "onFragmentResult: " + newbill.getTime());
                     DataManager.getDataManager().saveBills(getActivity(), billsShow);
                     updateTextView();
@@ -148,6 +149,8 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
 
     // 更新界面数据 ----------------------------------------------------------------------------------
     private void updateTextView() {
+        billsShow = dataManager.loadBills(getActivity());
+        System.out.println(billsShow);
         TextView textViewIncome = view.findViewById(R.id.textView_details_income);
         TextView textViewExpend = view.findViewById(R.id.textView_details_expend);
 

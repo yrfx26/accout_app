@@ -164,6 +164,10 @@ public class DataManager {
             e.printStackTrace();
         }
 
+        if (data == null) {
+            return new ArrayList<>();
+        }
+
         return data;
     }
 
@@ -194,6 +198,9 @@ public class DataManager {
             fileIn.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (data == null) {
+            return new ArrayList<>();
         }
 
         return data;
@@ -258,6 +265,7 @@ public class DataManager {
 
     public String getIncome(List<Bill> bills) {
         double total_money = 0.0;
+        Log.i("data", "getIncome: " + bills);;
         for (Bill bill:bills) {
             if (bill.getBillClass().equals(Bill.INCOME_CLASS)) {
                 total_money += bill.getMoney();

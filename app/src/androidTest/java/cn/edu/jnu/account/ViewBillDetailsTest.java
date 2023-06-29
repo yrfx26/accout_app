@@ -7,6 +7,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -16,7 +17,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -25,60 +25,27 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
-import org.junit.Before;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import cn.edu.jnu.account.data.Account;
-import cn.edu.jnu.account.data.Bill;
-import cn.edu.jnu.account.data.DataManager;
-
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AddBillTest {
-
-    Bill bill;
+public class ViewBillDetailsTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
-    @Before
-    public void setUp(){
-        bill = new Bill();
-        bill.setBillClass("ÂêÉ");
-        bill.setAccountName("Ë¥¶Êà∑1");
-        bill.setMoney(200.0);
-        bill.setTime(new Date(System.currentTimeMillis()));
-        bill.setType(Bill.INCOME_CLASS);
-        bill.setDescription("ËøôÊòØ‰∏Ä‰∏™ÊµãËØï");
-    }
-
-    @After
-    public void tearDown(){
-        List<Bill> bills = new ArrayList<>();
-        List<Account> accounts = new ArrayList<>();
-        DataManager dataManager = DataManager.getDataManager();
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        dataManager.saveBills(context, bills);
-        dataManager.saveAccounts(context, accounts);
-    }
-
     @Test
-    public void addBillTest() {
+    public void viewBillDetailsTest() {
         ViewInteraction bottomNavigationItemView = onView(
-                allOf(withId(R.id.navigation_item3), withContentDescription("ËÆ∞Ë¥¶"),
+                allOf(withId(R.id.navigation_item3), withContentDescription("º«’À"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
@@ -95,7 +62,7 @@ public class AddBillTest {
                                         1),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("800"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("500"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.add_et_time),
@@ -124,10 +91,10 @@ public class AddBillTest {
                                         1),
                                 4),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("hhhh"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("gg"), closeSoftKeyboard());
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.add_bt_commit), withText("Á°ÆËÆ§"),
+                allOf(withId(R.id.add_bt_commit), withText("»∑»œ"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -136,20 +103,63 @@ public class AddBillTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
+        ViewInteraction bottomNavigationItemView2 = onView(
+                allOf(withId(R.id.navigation_item2), withContentDescription("Õº±Ì"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0),
+                                1),
+                        isDisplayed()));
+        bottomNavigationItemView2.perform(click());
+
+        ViewInteraction bottomNavigationItemView3 = onView(
+                allOf(withId(R.id.navigation_item1), withContentDescription("√˜œ∏"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0),
+                                0),
+                        isDisplayed()));
+        bottomNavigationItemView3.perform(click());
+
         ViewInteraction textView = onView(
-                allOf(withId(R.id.textView_type), withText("ÂêÉ"),
+                allOf(withId(R.id.textView_type), withText("≥‘"),
                         withParent(allOf(withId(R.id.recyclerView_fg_account_),
                                 withParent(withId(R.id.fg_details_recycleView)))),
                         isDisplayed()));
-        textView.check(matches(withText("ÂêÉ")));
+        textView.check(matches(withText("≥‘")));
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textView_money), withText("800.0"),
-                        withParent(allOf(withId(R.id.recyclerView_fg_account_),
-                                withParent(withId(R.id.fg_details_recycleView)))),
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.fg_details_recycleView),
+                        childAtPosition(
+                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                0)));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
+
+        ViewInteraction editText = onView(
+                allOf(withId(R.id.type_bill_detail), withText("≥‘"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
-        textView2.check(matches(withText("800.0")));
+        editText.check(matches(withText("≥‘")));
 
+        ViewInteraction editText2 = onView(
+                allOf(withId(R.id.money_bill_detail), withText("500.0"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
+                        isDisplayed()));
+        editText2.check(matches(withText("500.0")));
+
+        ViewInteraction editText3 = onView(
+                allOf(withId(R.id.time_bill_detail), withText("2023-6-29"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
+                        isDisplayed()));
+        editText3.check(matches(withText("2023-6-29")));
+
+        ViewInteraction editText4 = onView(
+                allOf(withId(R.id.description_bill_detail), withText("gg"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
+                        isDisplayed()));
+        editText4.check(matches(withText("gg")));
     }
 
     private static Matcher<View> childAtPosition(

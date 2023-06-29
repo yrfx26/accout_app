@@ -27,7 +27,10 @@ public class DataManagerTest {
     public void setUp() throws Exception {
         dataManager = DataManager.getDataManager();
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        List<Account> accounts = new ArrayList<>();
+        dataManager.saveAccounts(context, accounts);
         accountsBackUp = dataManager.loadAccounts(context);
+
     }
 
     @After
@@ -54,6 +57,9 @@ public class DataManagerTest {
 
         dataManager.saveAccounts(context, accounts);
         List<Account> accountsRead = dataManager.loadAccounts(context);
+
+        System.out.println(accounts.size());
+        System.out.println(accountsRead.size());
 
         Assert.assertEquals(accounts.size(), accountsRead.size());
         for (int i=0; i<accounts.size(); i++) {

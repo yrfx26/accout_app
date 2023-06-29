@@ -67,6 +67,7 @@ public class AccountFragment extends Fragment {
                         Account account = bundle.getParcelable("账户");
                         accountsShow.add(account);
                         recyclerViewAdapter.notifyItemInserted(accountsShow.size());
+                        dataManager.saveAccounts(getActivity(), accountsShow);
                         updateTextView();
                     }
                 }
