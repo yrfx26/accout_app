@@ -85,6 +85,10 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        receiveDataFromAddFragment();
+    }
+
+    private void receiveDataFromAddFragment() {
         getParentFragmentManager().setFragmentResultListener("newbill", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
@@ -93,6 +97,9 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
                 // Do something with the result...
                 if (null != newbill){
                     billsShow.add(newbill);
+                    Log.i("data", "onFragmentResult: " + newbill.getTime());
+                    DataManager.getDataManager().saveBills(getActivity(),billsShow);
+                    updateTextView();
                     recyclerViewAdapter.notifyDataSetChanged();
                 }
                 else {
@@ -156,6 +163,11 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(getActivity(), BillDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("bill", billsShow.get(position));
+        System.out.println("bill --> " + billsShow.get(position));
+        bundle.putString("time",billsShow.get(position).getTime());
+        intent.putExtras(bundle);
         billDetailsLaunch.launch(intent);
     }
 

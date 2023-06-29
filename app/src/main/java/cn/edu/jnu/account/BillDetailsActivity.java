@@ -9,27 +9,50 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import cn.edu.jnu.account.data.Bill;
 
 public class BillDetailsActivity extends AppCompatActivity {
 
     private static final int RESULT_CODE_CHANGE = 1;
     private static final int RESULT_CODE_NO_CHANGE = 0;
+    private Bill bill;
+    private String time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_details);
+
+        getBillData();
+
         init();
+    }
+
+    private void getBillData() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        bill = bundle.getParcelable("bill");
+        time = bundle.getString("time");
+
+        try {
+            bill.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("bill --> " + bill);
     }
 
     private void init() {
         initNavigation();
-        ((TextView) findViewById(R.id.type_bill_detail)).setText("收入");
-        ((TextView) findViewById(R.id.money_bill_detail)).setText("123.4");
-        ((TextView) findViewById(R.id.time_bill_detail)).setText("2023-6-6");
-        ((TextView) findViewById(R.id.account_bill_detail)).setText("账户1");
-        ((TextView) findViewById(R.id.description_bill_detail)).setText("测试描述CRT佛语故不v除非体育馆iv的心态吃饭v给规划发出关于更换");
+        ((TextView) findViewById(R.id.type_bill_detail)).setText(bill.getType());
+        ((TextView) findViewById(R.id.money_bill_detail)).setText(String.valueOf(bill.getMoney()));
+        ((TextView) findViewById(R.id.time_bill_detail)).setText(bill.getTime());
+        ((TextView) findViewById(R.id.account_bill_detail)).setText(bill.getAccountName());
+        ((TextView) findViewById(R.id.description_bill_detail)).setText(bill.getDescription());
     }
 
 
