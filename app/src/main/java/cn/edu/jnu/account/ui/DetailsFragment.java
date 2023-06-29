@@ -1,5 +1,7 @@
 package cn.edu.jnu.account.ui;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,6 +87,10 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        receiveDataFromAddFragment();
+    }
+
+    private void receiveDataFromAddFragment() {
         getParentFragmentManager().setFragmentResultListener("newbill", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
@@ -93,6 +99,9 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
                 // Do something with the result...
                 if (null != newbill){
                     billsShow.add(newbill);
+                    Log.i("data", "onFragmentResult: " + newbill.getTime());
+                    DataManager.getDataManager().saveBills(getActivity(),billsShow);
+                    updateTextView();
                     recyclerViewAdapter.notifyDataSetChanged();
                 }
                 else {
@@ -110,24 +119,6 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
         view = inflater.inflate(R.layout.fragment_details, container, false);
         dataManager = DataManager.getDataManager();
         billsShow = dataManager.loadBills(getActivity());
-
-//        billsShow = new ArrayList<>();
-//        Bill bill = new Bill();
-//        bill.setAccountName("工商银行卡");
-//        bill.setMoney(2000);
-//        bill.setTime(new Date());
-//        bill.setType("工资");
-//        bill.setBillClass(Bill.INCOME_CLASS);
-//        billsShow.add(bill);
-//        bill = new Bill();
-//        bill.setAccountName("工商银行卡");
-//        bill.setMoney(-2500);
-//        bill.setTime(new Date());
-//        bill.setType("吃");
-//        bill.setBillClass(Bill.EXPEND_CLASS);
-//        billsShow.add(bill);
-//        billsShow.add(bill);
-//        dataManager.saveBills(getActivity(), billsShow);
 
         init();
         return view;
@@ -156,6 +147,11 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(getActivity(), BillDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("bill", billsShow.get(position));
+        System.out.println("bill --> " + billsShow.get(position));
+        bundle.putString("time",billsShow.get(position).getTime());
+        intent.putExtras(bundle);
         billDetailsLaunch.launch(intent);
     }
 

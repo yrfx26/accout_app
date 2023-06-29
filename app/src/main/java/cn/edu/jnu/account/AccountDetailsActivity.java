@@ -46,18 +46,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
         dataManager = DataManager.getDataManager();
         List<Bill> bills = dataManager.loadBills(MainActivity.getContext());
         billsShow = dataManager.getBillsByAccountName(accountGet.getName(), bills);
-//        List<Account> accounts = DataManager.getDataManager().loadAccounts(MainActivity.getContext());
-//        billsShow = new ArrayList<>();
-//        Bill bill = new Bill();
-//        bill.setAccountName("工商银行");
-//        bill.setMoney(2000);
-//        bill.setTime(new Date());
-//        bill.setType("工资");
-//        billsShow.add(bill);
-//        bill.setAccountName("wra");
-//        billsShow.add(bill);
-//        billsShow.add(bill);
-//        billsShow.add(bill);
 
         Log.i("data:", ""+bills.size());
         Log.i("data:", ""+billsShow.size());

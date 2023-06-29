@@ -20,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -181,10 +183,17 @@ public class AddFragment extends Fragment {
             private void getBillFromComponent(Bill newbill) {
                 newbill.setDescription(add_et_description.getText().toString());
                 newbill.setType(add_spinner_type.getSelectedItem().toString());
-                newbill.setTime(new Date(add_et_time.getDrawingTime()));
+                System.out.println("add_et_time.getDrawingTime() --> "+add_et_time.getDrawingTime());
+                System.out.println("add_et_time.getText().toString() --> " + add_et_time.getText().toString());
                 newbill.setMoney(Double.parseDouble(add_et_money.getText().toString()));
                 newbill.setBillClass(add_spinner_billClass.getSelectedItem().toString());
                 newbill.setAccountName(add_spinner_account.getSelectedItem().toString());
+
+                try {
+                    newbill.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(add_et_time.getText().toString()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
