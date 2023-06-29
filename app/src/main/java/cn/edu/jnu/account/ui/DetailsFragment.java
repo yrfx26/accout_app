@@ -1,5 +1,7 @@
 package cn.edu.jnu.account.ui;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -117,24 +119,6 @@ public class DetailsFragment extends Fragment implements OnItemClickListener{
         view = inflater.inflate(R.layout.fragment_details, container, false);
         dataManager = DataManager.getDataManager();
         billsShow = dataManager.loadBills(getActivity());
-
-//        billsShow = new ArrayList<>();
-//        Bill bill = new Bill();
-//        bill.setAccountName("工商银行卡");
-//        bill.setMoney(2000);
-//        bill.setTime(new Date());
-//        bill.setType("工资");
-//        bill.setBillClass(Bill.INCOME_CLASS);
-//        billsShow.add(bill);
-//        bill = new Bill();
-//        bill.setAccountName("工商银行卡");
-//        bill.setMoney(-2500);
-//        bill.setTime(new Date());
-//        bill.setType("吃");
-//        bill.setBillClass(Bill.EXPEND_CLASS);
-//        billsShow.add(bill);
-//        billsShow.add(bill);
-//        dataManager.saveBills(getActivity(), billsShow);
 
         init();
         return view;
