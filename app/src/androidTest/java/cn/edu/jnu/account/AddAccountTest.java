@@ -100,17 +100,17 @@ public class AddAccountTest {
                                         0),
                                 5),
                         isDisplayed()));
-        appCompatEditText.perform(click());
+        appCompatEditText.perform(replaceText("12"));
 
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.editView_account_name), withText("Name"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
-                                        0),
-                                5),
-                        isDisplayed()));
-        appCompatEditText2.perform(replaceText("12"));
+//        ViewInteraction appCompatEditText2 = onView(
+//                allOf(withId(R.id.editView_account_name), withText("Name"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+//                                        0),
+//                                5),
+//                        isDisplayed()));
+//        appCompatEditText2.perform(replaceText("12"));
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.editView_account_name), withText("12"),
@@ -133,7 +133,7 @@ public class AddAccountTest {
         appCompatEditText4.perform(replaceText("34"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.editView_account_money), withText("Name"),
+                allOf(withId(R.id.editView_account_money), withText("0"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
@@ -175,6 +175,14 @@ public class AddAccountTest {
                                 withParent(withId(R.id.recyclerView_fg_account)))),
                         isDisplayed()));
         textView2.check(matches(withText(String.valueOf(accountAdd.getMoney()))));
+
+
+        List<Bill> bills = new ArrayList<>();
+        List<Account> accounts = new ArrayList<>();
+        DataManager dataManager = DataManager.getDataManager();
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager.saveBills(context, bills);
+        dataManager.saveAccounts(context, accounts);
     }
 
     private static Matcher<View> childAtPosition(

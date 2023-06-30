@@ -2,6 +2,7 @@ package cn.edu.jnu.account;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
@@ -52,13 +53,22 @@ public class DeleteBillTest {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
+    private DataManager dataManager = DataManager.getDataManager();
+    private Context context;
+
+    @After
+    public void setUp() {
+        dataManager = DataManager.getDataManager();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    }
+
 
     @After
     public void tearDown(){
         List<Bill> bills = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
-        DataManager dataManager = DataManager.getDataManager();
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager = DataManager.getDataManager();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         dataManager.saveBills(context, bills);
         dataManager.saveAccounts(context, accounts);
     }
@@ -66,7 +76,7 @@ public class DeleteBillTest {
     @Test
     public void deleteBillTest() {
         ViewInteraction bottomNavigationItemView = onView(
-                allOf(withId(R.id.navigation_item3), withContentDescription("记账"),
+                allOf(withId(R.id.navigation_item3),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
@@ -83,7 +93,7 @@ public class DeleteBillTest {
                                         1),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("500"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("600"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.add_et_time),
@@ -115,7 +125,7 @@ public class DeleteBillTest {
         appCompatEditText3.perform(replaceText("hh"), closeSoftKeyboard());
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.add_bt_commit), withText("确认"),
+                allOf(withId(R.id.add_bt_commit),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -125,7 +135,7 @@ public class DeleteBillTest {
         materialButton2.perform(click());
 
         ViewInteraction bottomNavigationItemView2 = onView(
-                allOf(withId(R.id.navigation_item3), withContentDescription("记账"),
+                allOf(withId(R.id.navigation_item3),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
@@ -135,7 +145,7 @@ public class DeleteBillTest {
         bottomNavigationItemView2.perform(click());
 
         ViewInteraction bottomNavigationItemView3 = onView(
-                allOf(withId(R.id.navigation_item1), withContentDescription("明细"),
+                allOf(withId(R.id.navigation_item1),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
@@ -144,15 +154,22 @@ public class DeleteBillTest {
                         isDisplayed()));
         bottomNavigationItemView3.perform(click());
 
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.fg_details_recycleView),
-                        childAtPosition(
-                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                0)));
+//        ViewInteraction recyclerView = onView(
+//                allOf(withId(R.id.fg_details_recycleView),
+//                        childAtPosition(
+//                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+//                                0)));
 //        recyclerView.perform(actionOnItemAtPosition(0, longClick()));
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.textView_money), withText("600.0"),
+                        withParent(allOf(withId(R.id.recyclerView_fg_account_),
+                                withParent(withId(R.id.fg_details_recycleView)))),
+                        isDisplayed()));
+        textView2.check(matches(withText("600.0")));
+        textView2.perform(longClick());
 
         ViewInteraction materialTextView = onView(
-                allOf(withClassName(is("com.google.android.material.textview.MaterialTextView")), withText("???"),
+                allOf(withClassName(is("com.google.android.material.textview.MaterialTextView")),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -162,11 +179,14 @@ public class DeleteBillTest {
         materialTextView.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.textView_details_income), withText("0.0"),
+                allOf(withId(R.id.textView_details_income),
                         withParent(allOf(withId(R.id.constraintLayout1),
                                 withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
-        textView.check(matches(withText("0.0")));
+
+        System.out.println(dataManager);
+        List<Bill> bills = dataManager.loadBills(context);
+        textView.check(matches(withText(dataManager.getIncome(bills))));
     }
 
     private static Matcher<View> childAtPosition(

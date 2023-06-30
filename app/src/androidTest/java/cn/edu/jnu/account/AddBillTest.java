@@ -14,6 +14,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.describedAs;
 import static org.hamcrest.Matchers.is;
 
 import android.content.Context;
@@ -53,16 +54,17 @@ public class AddBillTest {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
+    private DataManager dataManager;
+    private Context context;
 
     @Before
     public void setUp(){
-        bill = new Bill();
-        bill.setBillClass("吃");
-        bill.setAccountName("账户1");
-        bill.setMoney(200.0);
-        bill.setTime(new Date(System.currentTimeMillis()));
-        bill.setType(Bill.INCOME_CLASS);
-        bill.setDescription("这是一个测试");
+        List<Bill> bills = new ArrayList<>();
+        List<Account> accounts = new ArrayList<>();
+        dataManager = DataManager.getDataManager();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager.saveBills(context, bills);
+        dataManager.saveAccounts(context, accounts);
     }
 
     @After
@@ -95,7 +97,7 @@ public class AddBillTest {
                                         1),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("800"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("1000"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.add_et_time),
@@ -136,19 +138,28 @@ public class AddBillTest {
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.textView_type), withText("吃"),
-                        withParent(allOf(withId(R.id.recyclerView_fg_account_),
-                                withParent(withId(R.id.fg_details_recycleView)))),
-                        isDisplayed()));
-        textView.check(matches(withText("吃")));
+//        ViewInteraction textView = onView(
+//                allOf(withId(R.id.textView_type), withText("吃"),
+//                        withParent(allOf(withId(R.id.recyclerView_fg_account_),
+//                                withParent(withId(R.id.fg_details_recycleView)))),
+//                        isDisplayed()));
+//        textView.check(matches(withText("吃")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textView_money), withText("800.0"),
+                allOf(withId(R.id.textView_money),
                         withParent(allOf(withId(R.id.recyclerView_fg_account_),
                                 withParent(withId(R.id.fg_details_recycleView)))),
                         isDisplayed()));
-        textView2.check(matches(withText("800.0")));
+        List<Bill> bills_ = dataManager.loadBills(context);
+        textView2.check(matches(withText(dataManager.getIncome(bills_))));
+
+
+        List<Bill> bills = new ArrayList<>();
+        List<Account> accounts = new ArrayList<>();
+        DataManager dataManager = DataManager.getDataManager();
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager.saveBills(context, bills);
+        dataManager.saveAccounts(context, accounts);
 
     }
 

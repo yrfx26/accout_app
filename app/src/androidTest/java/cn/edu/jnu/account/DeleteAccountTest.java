@@ -4,8 +4,8 @@ package cn.edu.jnu.account;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 //import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -47,24 +47,26 @@ import cn.edu.jnu.account.data.DataManager;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ViewBillDetailsTest {
+public class DeleteAccountTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
+    private DataManager dataManager;
+    private Context context;
 
     @Before
-    public void setUp() {
+    public void setUp(){
         List<Bill> bills = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
-        DataManager dataManager = DataManager.getDataManager();
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager = DataManager.getDataManager();
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         dataManager.saveBills(context, bills);
         dataManager.saveAccounts(context, accounts);
     }
 
     @After
-    public void tearDown() {
+    public void tearDown(){
         List<Bill> bills = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
         DataManager dataManager = DataManager.getDataManager();
@@ -74,124 +76,141 @@ public class ViewBillDetailsTest {
     }
 
 
+
     @Test
-    public void viewBillDetailsTest() {
+    public void deleteAccountTest() {
         ViewInteraction bottomNavigationItemView = onView(
-                allOf(withId(R.id.navigation_item3),
+                allOf(withId(R.id.navigation_item4), withContentDescription("账户"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
                                         0),
-                                2),
+                                3),
                         isDisplayed()));
         bottomNavigationItemView.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.add_et_money),
+        ViewInteraction materialButton = onView(
+                allOf(withId(R.id.button_add_account), withText("添加账户"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
+                                        withId(R.id.fragment_account),
+                                        0),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("1567"), closeSoftKeyboard());
+        materialButton.perform(click());
+
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.editView_account_name), withText("Name"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
+                                5),
+                        isDisplayed()));
+        appCompatEditText.perform(replaceText("q"));
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.add_et_time),
+                allOf(withId(R.id.editView_account_name), withText("q"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                10),
-                        isDisplayed()));
-        appCompatEditText2.perform(click());
-
-        ViewInteraction materialButton = onView(
-                allOf(withClassName(is("com.google.android.material.button.MaterialButton")), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
                                         0),
-                                3)));
-        materialButton.perform(scrollTo(), click());
+                                5),
+                        isDisplayed()));
+        appCompatEditText2.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.add_et_description),
+                allOf(withId(R.id.editView_account_money), withText("0"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                4),
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
+                                0),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("gg"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("59"));
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.editView_account_money), withText("59"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatEditText4.perform(closeSoftKeyboard());
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.add_bt_commit),
+                allOf(withId(R.id.button_confirm_add_account), withText("保存"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                12),
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
+                                6),
                         isDisplayed()));
         materialButton2.perform(click());
 
         ViewInteraction bottomNavigationItemView2 = onView(
-                allOf(withId(R.id.navigation_item2),
+                allOf(withId(R.id.navigation_item5), withContentDescription("我的"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
                                         0),
-                                1),
+                                4),
                         isDisplayed()));
         bottomNavigationItemView2.perform(click());
 
         ViewInteraction bottomNavigationItemView3 = onView(
-                allOf(withId(R.id.navigation_item1),
+                allOf(withId(R.id.navigation_item4), withContentDescription("账户"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
                                         0),
-                                0),
+                                3),
                         isDisplayed()));
         bottomNavigationItemView3.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.textView_money), withText("1567.0"),
-                        withParent(allOf(withId(R.id.recyclerView_fg_account_),
-                                withParent(withId(R.id.fg_details_recycleView)))),
+                allOf(withId(R.id.textView_account_total_money),
+                        withParent(allOf(withId(R.id.constraintLayout2),
+                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
-        textView.perform(click());
+
+        List<Account> accounts = dataManager.loadAccounts(context);
+        textView.check(matches(withText(dataManager.getTotalAccountMoney(accounts))));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.textView_account_item_name), withText("q"),
+                        withParent(allOf(withId(R.id.constraintLayout_account_item),
+                                withParent(withId(R.id.recyclerView_fg_account)))),
+                        isDisplayed()));
+        textView2.check(matches(withText("q")));
+        textView2.perform(longClick());
 
 //        ViewInteraction recyclerView = onView(
-//                allOf(withId(R.id.fg_details_recycleView),
+//                allOf(withId(R.id.recyclerView_fg_account),
 //                        childAtPosition(
 //                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-//                                0)));
-//        recyclerView.perform(actionOnItemAtPosition(0, click()));
+//                                2)));
+//        recyclerView.perform(actionOnItemAtPosition(0, longClick()));
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.type_bill_detail),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
+        ViewInteraction materialTextView = onView(
+                allOf(withClassName(is("com.google.android.material.textview.MaterialTextView")), withText("删除"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        0),
+                                0),
                         isDisplayed()));
-//        editText.check(matches(withText("��")));
+        materialTextView.perform(click());
 
-        ViewInteraction editText2 = onView(
-                allOf(withId(R.id.money_bill_detail),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
+        ViewInteraction textView3 = onView(
+                allOf(withId(R.id.textView_account_total_money),
+                        withParent(allOf(withId(R.id.constraintLayout2),
+                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
-        editText2.check(matches(withText("1567.0")));
 
-//        ViewInteraction editText3 = onView(
-//                allOf(withId(R.id.time_bill_detail),
-//                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
-//                        isDisplayed()));
-//        editText3.check(matches(withText("2023-6-29")));
-
-        ViewInteraction editText4 = onView(
-                allOf(withId(R.id.description_bill_detail),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
-                        isDisplayed()));
-        editText4.check(matches(withText("gg")));
+        List<Account> accounts1 = dataManager.loadAccounts(context);
+        textView3.check(matches(withText(dataManager.getTotalAccountMoney(accounts1))));
     }
 
     private static Matcher<View> childAtPosition(

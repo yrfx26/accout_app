@@ -32,6 +32,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,15 @@ public class ViewAccountDetailsTest {
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
+    @Before
+    public void setUp() {
+        List<Bill> bills = new ArrayList<>();
+        List<Account> accounts = new ArrayList<>();
+        DataManager dataManager = DataManager.getDataManager();
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager.saveBills(context, bills);
+        dataManager.saveAccounts(context, accounts);
+    }
 
     @After
     public void tearDown() {
@@ -86,17 +96,17 @@ public class ViewAccountDetailsTest {
         materialButton.perform(click());
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.editView_account_money), withText("Name"),
+                allOf(withId(R.id.editView_account_money),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("500"));
+        appCompatEditText.perform(replaceText("6088"));
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.editView_account_money), withText("500"),
+                allOf(withId(R.id.editView_account_money), withText("6088"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
@@ -117,7 +127,7 @@ public class ViewAccountDetailsTest {
 
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.textView_account_item_money), withText("500.0"),
+                allOf(withId(R.id.textView_account_item_money), withText("6088.0"),
                         withParent(allOf(withId(R.id.constraintLayout_account_item),
                                 withParent(withId(R.id.recyclerView_fg_account)))),
                         isDisplayed()));
@@ -139,10 +149,10 @@ public class ViewAccountDetailsTest {
         textView2.check(matches(withText("Name")));
 
         ViewInteraction editText = onView(
-                allOf(withId(R.id.editView_account_money), withText("500.0"),
+                allOf(withId(R.id.editView_account_money), withText("6088.0"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class))),
                         isDisplayed()));
-        editText.check(matches(withText("500.0")));
+        editText.check(matches(withText("6088.0")));
     }
 
         private static Matcher<View> childAtPosition(

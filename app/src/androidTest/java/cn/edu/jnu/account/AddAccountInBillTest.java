@@ -1,11 +1,11 @@
 package cn.edu.jnu.account;
 
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -14,6 +14,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -33,7 +35,6 @@ import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,39 +48,24 @@ import cn.edu.jnu.account.data.DataManager;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ShowIncomeByMonthTest {
-    DataManager dataManager;
-    private Context context;
-    private List<Bill> billsBackUp;
-    private String income;
+public class AddAccountInBillTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Before
-    public void setUp() {
-        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        dataManager = DataManager.getDataManager();
-//        billsBackUp = dataManager.loadBills(context);
-//
-//        List<Bill> bills = new ArrayList<>();
-//        Bill bill = new Bill();
-//        bill.setMoney(10000.00);
-//        bill.setBillClass(Bill.INCOME_CLASS);
-//        bills.add(bill);
-//        bill = new Bill();
-//        bill.setMoney(20000.00);
-//        bill.setBillClass(Bill.EXPEND_CLASS);
-//        bills.add(bill);
-//        bills.add(bill);
-//
-//        income = dataManager.getIncome(bills);
-//        dataManager.saveBills(context, bills);
+    public void setUp(){
+        List<Bill> bills = new ArrayList<>();
+        List<Account> accounts = new ArrayList<>();
+        DataManager dataManager = DataManager.getDataManager();
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager.saveBills(context, bills);
+        dataManager.saveAccounts(context, accounts);
     }
 
     @After
-    public void tearDown() {
+    public void tearDown(){
         List<Bill> bills = new ArrayList<>();
         List<Account> accounts = new ArrayList<>();
         DataManager dataManager = DataManager.getDataManager();
@@ -89,8 +75,8 @@ public class ShowIncomeByMonthTest {
     }
 
     @Test
-    public void showIncomeByMonthTest() {
-        ViewInteraction bottomNavigationItemView2 = onView(
+    public void addAccountInBillTest() {
+        ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.navigation_item3), withContentDescription("记账"),
                         childAtPosition(
                                 childAtPosition(
@@ -98,65 +84,78 @@ public class ShowIncomeByMonthTest {
                                         0),
                                 2),
                         isDisplayed()));
-        bottomNavigationItemView2.perform(click());
+        bottomNavigationItemView.perform(click());
+
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.add_spinner_account),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        1),
+                                15),
+                        isDisplayed()));
+        appCompatSpinner.perform(click());
+
+        DataInteraction appCompatCheckedTextView = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(1);
+        appCompatCheckedTextView.perform(click());
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.add_et_money),
+                allOf(withId(R.id.editView_account_money), withText("0"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                3),
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
+                                0),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("600"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("5000"));
+
+        ViewInteraction appCompatEditText1 = onView(
+                allOf(withId(R.id.editView_account_name), withText("Name"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
+                                5),
+                        isDisplayed()));
+        appCompatEditText1.perform(replaceText("qw"));
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.add_et_time),
+                allOf(withId(R.id.editView_account_money), withText("5000"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                10),
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
+                                0),
                         isDisplayed()));
-        appCompatEditText2.perform(click());
+        appCompatEditText2.perform(closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
-                allOf(withClassName(is("com.google.android.material.button.MaterialButton")), withText("OK"),
+                allOf(withId(R.id.button_confirm_add_account), withText("保存"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
                                         0),
-                                3)));
-        materialButton.perform(scrollTo(), click());
-
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.add_et_description),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                4),
+                                6),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("gg"), closeSoftKeyboard());
+        materialButton.perform(click());
 
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.add_bt_commit), withText("确认"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                12),
-                        isDisplayed()));
-        materialButton2.perform(click());
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.textView_details_income),
-                        withParent(allOf(withId(R.id.constraintLayout1),
+        ViewInteraction textView = onView(
+                allOf(withText("qw"),
+                        withParent(allOf(withId(R.id.add_spinner_account),
                                 withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
+        textView.check(matches(withText("qw")));
 
-        List<Bill> bills_ = dataManager.loadBills(context);
-        textView2.check(matches(withText(dataManager.getIncome(bills_))));
+        List<Bill> bills = new ArrayList<>();
+        List<Account> accounts = new ArrayList<>();
+        DataManager dataManager = DataManager.getDataManager();
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        dataManager.saveBills(context, bills);
+        dataManager.saveAccounts(context, accounts);
     }
 
     private static Matcher<View> childAtPosition(

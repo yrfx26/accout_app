@@ -49,7 +49,6 @@ public class DataManager {
             synchronized (DataManager.class) {
                 if (dataManager == null) {
                     dataManager = new DataManager();
-
                 }
             }
         }
